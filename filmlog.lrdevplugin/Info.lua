@@ -13,10 +13,10 @@ return {
 	LrMetadataProvider = 'FilmShotsMetadataDefinition.lua',
 	
 	-- Add the Metadata Tagset File
-	--LrMetadataTagsetFactory = {
-	--	'CustomMetadataTagset.lua',
-	--	'AllMetadataTagset.lua',
-	--},
+	LrMetadataTagsetFactory = {
+		'FilmShotsMetadataTagset.lua',
+		--'AllMetadataTagset.lua',
+	},
 
     LrLibraryMenuItems = {
         title = 'Import Film Shots Data',
