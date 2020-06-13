@@ -10,7 +10,7 @@ return {
 	LrPluginInfoUrl = "http://www.leaf500.com",
 	
 	-- Add the Metadata Definition File
-	--LrMetadataProvider = 'CustomMetadataDefinition.lua',
+	LrMetadataProvider = 'FilmShotsMetadataDefinition.lua',
 	
 	-- Add the Metadata Tagset File
 	--LrMetadataTagsetFactory = {
