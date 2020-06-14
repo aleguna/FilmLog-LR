@@ -16,16 +16,17 @@ function showFilmShotsImportDialog ()
             spacing = f:dialog_spacing()
         }
 
-        for i, photo in ipairs (selection) do
+        for i, pic in ipairs (selection) do
             table.insert (content_array, f:row {
                 fill_horizontal  = 1,
-                f:static_text {
-					alignment = "right",
-					width = LrView.share "label_width",
-					title = "File Name"
+                f:catalog_photo {
+                    photo = pic,
+                    width = 64,
+                    height = 64,
 				},
                 f:static_text {
-					title = photo:getFormattedMetadata ('fileName')
+                    fill_vertical = 1,
+					title = pic:getFormattedMetadata ('fileName')
 				},
             })
         end
@@ -36,7 +37,8 @@ function showFilmShotsImportDialog ()
     
         LrDialogs.presentModalDialog {
             title = "Import Film Shots Data",
-            contents = content
+            contents = content,
+            resizable = true
         }
 
     end)
