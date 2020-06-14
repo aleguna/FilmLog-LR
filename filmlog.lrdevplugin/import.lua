@@ -35,7 +35,7 @@ function showFilmShotsImportDialog ()
         }
     
         LrDialogs.presentModalDialog {
-            title = "Custom Dialog Observer",
+            title = "Import Film Shots Data",
             contents = content
         }
 
