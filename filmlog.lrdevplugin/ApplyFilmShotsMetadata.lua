@@ -3,6 +3,8 @@ local LrDialogs = import 'LrDialogs'
 local LrApplication = import 'LrApplication'
 local LrTasks = import 'LrTasks'
 
+require 'json.lua'
+
 function applyFilmShotsMetadataToPhoto (photo, frameIndex) 
     LrDialogs.message ("OK ".. photo:getFormattedMetadata ('fileName') .. " -> " .. frameIndex)
 end
