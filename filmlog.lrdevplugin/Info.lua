@@ -19,8 +19,8 @@ return {
 	},
 
     LrLibraryMenuItems = {
-        title = 'Import Film Shots Data',
-        file = 'import.lua',
+        title = 'Apply Film Shots Metadata',
+        file = 'ApplyFilmShotsMetadata.lua',
         enabledWhen = 'photosAvailable',
     }
 	
