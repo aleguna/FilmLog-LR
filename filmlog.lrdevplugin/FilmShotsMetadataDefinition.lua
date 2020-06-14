@@ -1,6 +1,14 @@
 return {
     metadataFieldsForPhotos = {
         {
+            id = 'Frame_Index',
+            title = "Enter Frame Index: ",
+            dataType = 'string', 
+            browsable = true,
+            searchable = true,
+        },
+
+        {
             id = 'Roll_UID',
         },
 
@@ -47,14 +55,6 @@ return {
         {
             id = 'Roll_FormatName',
             title = "Format Name",
-            dataType = 'string', 
-            browsable = true,
-            searchable = true,
-        },
-
-        {
-            id = 'Frame_Index',
-            title = "Frame Index",
             dataType = 'string', 
             browsable = true,
             searchable = true,
