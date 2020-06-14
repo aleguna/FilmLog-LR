@@ -30,7 +30,9 @@ function showFilmShotsImportDialog ()
             })
         end
 
-        local content = f:column (content_array)
+        local content = f:scrolled_view {
+            f:column (content_array)
+        }
     
         LrDialogs.presentModalDialog {
             title = "Custom Dialog Observer",
