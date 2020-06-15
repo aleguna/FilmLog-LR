@@ -5,12 +5,25 @@ local LrTasks = import 'LrTasks'
 local LrPathUtils = import 'LrPathUtils'
 local LrFileUtils = import 'LrFileUtils'
 
-require 'json.lua'
+local json = require 'json.lua'
 
 local function readFile (path)
+    local str = nil
+
+    local file = io.open (path)
+    if file then
+        str = file:read("*all")
+        file:close ()
+    end
+
+    return str;
 end
 
-local function applyFilmShotsMetadataToPhoto (photo, frameIndex) 
+local function saveMetadata (photo, metadata)
+    photo:setPropertyForPlugin (_PLUGIN, "Roll_Name", metadata[1].name)
+end
+
+local function applyFilmShotsMetadataToPhoto (catalog, photo, frameIndex) 
     local path = photo:getRawMetadata ('path')
     if path and LrFileUtils.exists (path) then 
         local dir = LrPathUtils.parent (path)
@@ -19,7 +32,14 @@ local function applyFilmShotsMetadataToPhoto (photo, frameIndex)
             local jsonPath = LrPathUtils.child (dir, dirName..".json")
             local jsonString = readFile (jsonPath)
             if jsonString then
-                
+                local filmShotsMetadata = json.decode (jsonString)
+                if filmShotsMetadata then
+                    catalog:withPrivateWriteAccessDo (function (context)
+                        saveMetadata (photo, filmShotsMetadata)
+                    end)
+                else
+                    LrDialogs.message ("Incorrect file format "..jsonPath)
+                end
             else
                 LrDialogs.message ("Couldn't read metadata file "..jsonPath..", please check")
             end
@@ -39,7 +59,7 @@ local function applyFilmShotsMetadata ()
         if photo then
             local frameIndex, error = photo:getPropertyForPlugin (_PLUGIN, "Frame_Index", nil, true)
             if frameIndex then
-                applyFilmShotsMetadataToPhoto (photo, frameIndex)
+                applyFilmShotsMetadataToPhoto (catalog, photo, frameIndex)
             else
                 LrDialogs.message ("You need to set 'Frame Index' metadata property in 'Film Shots Metadata' section first")
             end
