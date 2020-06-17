@@ -22,7 +22,15 @@ return {
         title = 'Apply Film Shots Metadata',
         file = 'ApplyFilmShotsMetadata.lua',
         enabledWhen = 'photosAvailable',
-    }
+	},
+	
+	LrExportFilterProvider = {
+		{
+			title = "Write Film Shots Data",
+			file = "ExportWriteFilmShotsMetadata.lua",
+			id = "export",
+		},
+	}
 	
 	-- Add the entry for the Plug-in Manager Dialog
 	--LrPluginInfoProvider = 'PluginInfoProvider.lua',
