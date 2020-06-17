@@ -5,7 +5,9 @@ local LrTasks = import 'LrTasks'
 local LrPathUtils = import 'LrPathUtils'
 local LrFileUtils = import 'LrFileUtils'
 
+local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
 local json = require 'json.lua'
+require 'log.lua'
 
 local function readFile (path)
     local str = nil
@@ -20,29 +22,31 @@ local function readFile (path)
 end
 
 local function saveMetadata (photo, rollData, frameIndex)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_UID", nil)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_Name", rollData.name)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_Mode", rollData.mode)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_Status", rollData.status)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_Comment", rollData.comment)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_Thumbnail", nil)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_CreationTimeUnix", rollData.timestamp)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_CameraName", rollData.cameraName)
-    photo:setPropertyForPlugin (_PLUGIN, "Roll_FormatName", rollData.formatName)
+    local meta = FilmShotsMetadata.make (photo)
+
+    meta.Roll_UID = nil
+    meta.Roll_Name = rollData.name
+    meta.Roll_Mode = rollData.mode
+    meta.Roll_Status = rollData.status
+    meta.Roll_Comment = rollData.comment
+    meta.Roll_Thumbnail = nil
+    meta.Roll_CreationTimeUnix = rollData.timestamp
+    meta.Roll_CameraName = rollData.cameraName
+    meta.Roll_FormatName = rollData.formatName
     
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_LocalTimeIso8601", rollData.frames[frameIndex].localTime)
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Thumbnail", nil);
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Latitude", tostring (rollData.frames[frameIndex].latitude))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Longitude", tostring (rollData.frames[frameIndex].longitude))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Locality", rollData.frames[frameIndex].locality)
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Comment", rollData.frames[frameIndex].comment)
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_EmulsionName", rollData.frames[frameIndex].emulsionName)
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_BoxISO", tostring (rollData.frames[frameIndex].boxIsoSpeed))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_RatedISO", tostring (rollData.frames[frameIndex].ratedIsoSpeed))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_LensName", rollData.frames[frameIndex].lensName)
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_FocalLength", tostring (rollData.frames[frameIndex].focalLength))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_FStop", tostring (rollData.frames[frameIndex].aperture))
-    photo:setPropertyForPlugin (_PLUGIN, "Frame_Shutter", rollData.frames[frameIndex].shutterSpeed)
+    meta.Frame_LocalTimeIso8601 = rollData.frames[frameIndex].localTime
+    meta.Frame_Thumbnail = nil
+    meta.Frame_Latitude = tostring (rollData.frames[frameIndex].latitude)
+    meta.Frame_Longitude = tostring (rollData.frames[frameIndex].longitude)
+    meta.Frame_Locality = rollData.frames[frameIndex].locality
+    meta.Frame_Comment = rollData.frames[frameIndex].comment
+    meta.Frame_EmulsionName = rollData.frames[frameIndex].emulsionName
+    meta.Frame_BoxISO = tostring (rollData.frames[frameIndex].boxIsoSpeed)
+    meta.Frame_RatedISO = tostring (rollData.frames[frameIndex].ratedIsoSpeed)
+    meta.Frame_LensName = rollData.frames[frameIndex].lensName
+    meta.Frame_FocalLength = tostring (rollData.frames[frameIndex].focalLength)
+    meta.Frame_FStop = tostring (rollData.frames[frameIndex].aperture)
+    meta.Frame_Shutter = rollData.frames[frameIndex].shutterSpeed
 
 end
 
