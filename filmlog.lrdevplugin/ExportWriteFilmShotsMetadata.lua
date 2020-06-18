@@ -5,6 +5,7 @@ local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
 require 'log.lua'
 
 local function addExifKey (command, key, val)
+    log:tracef ("addExifKey: %s = %s", key, val)
     if val then 
         return string.format ("%s -%s=\"%s\"", command, key, val)
     end
@@ -43,7 +44,7 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
     --command = addExifKey (command, "", meta.Frame_FStop)
     --command = addExifKey (command, "", meta.Frame_Shutter)
 
-    command = command .. " " .. photoPath
+    command = command .. " -overwrite_original " .. photoPath
 
     return command
 end
