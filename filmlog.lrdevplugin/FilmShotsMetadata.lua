@@ -1,23 +1,187 @@
 require 'log.lua'
 
-local Metatable = {
-    __index = function (table, key)
-        return table.photo:getPropertyForPlugin (_PLUGIN, key)
-    end,
-
-    __newindex = function (table, key, value)
-        log:tracef ("%s = %s", key, value)
-        table.photo:setPropertyForPlugin (_PLUGIN, key, value)
-    end
+local Metadata = {
 }
+
+local function setValue (photo, key, value)
+    log:tracef ("setPropertyForPlugin %s = %s", key, value)
+    photo:setPropertyForPlugin (_PLUGIN, key, value)
+end
+
+local function getValue (photo, key)
+    local value = photo:getPropertyForPlugin (_PLUGIN, key)
+    log:tracef ("getPropertyForPlugin %s = %s", key, value)
+    return value
+end
+
+function Metadata:Roll_UID ()
+    return getValue (self.photo, "Roll_UID")
+end
+function Metadata:setRoll_UID (value)
+    setValue (self.photo, "Roll_UID", value)
+end
+ 
+function Metadata:Roll_Name ()
+    return getValue (self.photo, "Roll_Name")
+end
+function Metadata:setRoll_Name (value)
+    setValue (self.photo, "Roll_Name", value)
+end
+ 
+function Metadata:Roll_Mode ()
+    return getValue (self.photo, "Roll_Mode")
+end
+function Metadata:setRoll_Mode (value)
+    setValue (self.photo, "Roll_Mode", value)
+end
+ 
+function Metadata:Roll_Status ()
+    return getValue (self.photo, "Roll_Status")
+end
+function Metadata:setRoll_Status (value)
+    setValue (self.photo, "Roll_Status", value)
+end
+ 
+function Metadata:Roll_Comment ()
+    return getValue (self.photo, "Roll_Comment")
+end
+function Metadata:setRoll_Comment (value)
+    setValue (self.photo, "Roll_Comment", value)
+end
+ 
+function Metadata:Roll_Thumbnail ()
+    return getValue (self.photo, "Roll_Thumbnail")
+end
+function Metadata:setRoll_Thumbnail (value)
+    setValue (self.photo, "Roll_Thumbnail", value)
+end
+ 
+function Metadata:Roll_CreationTimeUnix ()
+    return getValue (self.photo, "Roll_CreationTimeUnix")
+end
+function Metadata:setRoll_CreationTimeUnix (value)
+    setValue (self.photo, "Roll_CreationTimeUnix", value)
+end
+ 
+function Metadata:Roll_CameraName ()
+    return getValue (self.photo, "Roll_CameraName")
+end
+function Metadata:setRoll_CameraName (value)
+    setValue (self.photo, "Roll_CameraName", value)
+end
+ 
+function Metadata:Roll_FormatName ()
+    return getValue (self.photo, "Roll_FormatName")
+end
+function Metadata:setRoll_FormatName (value)
+    setValue (self.photo, "Roll_FormatName", value)
+end
+ 
+function Metadata:Frame_LocalTimeIso8601 ()
+    return getValue (self.photo, "Frame_LocalTimeIso8601")
+end
+function Metadata:setFrame_LocalTimeIso8601 (value)
+    setValue (self.photo, "Frame_LocalTimeIso8601", value)
+end
+ 
+function Metadata:Frame_Thumbnail ()
+    return getValue (self.photo, "Frame_Thumbnail")
+end
+function Metadata:setFrame_Thumbnail (value)
+    setValue (self.photo, "Frame_Thumbnail", value)
+end
+ 
+function Metadata:Frame_Latitude ()
+    return getValue (self.photo, "Frame_Latitude")
+end
+function Metadata:setFrame_Latitude (value)
+    setValue (self.photo, "Frame_Latitude", value)
+end
+ 
+function Metadata:Frame_Longitude ()
+    return getValue (self.photo, "Frame_Longitude")
+end
+function Metadata:setFrame_Longitude (value)
+    setValue (self.photo, "Frame_Longitude", value)
+end
+ 
+function Metadata:Frame_Locality ()
+    return getValue (self.photo, "Frame_Locality")
+end
+function Metadata:setFrame_Locality (value)
+    setValue (self.photo, "Frame_Locality", value)
+end
+ 
+function Metadata:Frame_Comment ()
+    return getValue (self.photo, "Frame_Comment")
+end
+function Metadata:setFrame_Comment (value)
+    setValue (self.photo, "Frame_Comment", value)
+end
+ 
+function Metadata:Frame_EmulsionName ()
+    return getValue (self.photo, "Frame_EmulsionName")
+end
+function Metadata:setFrame_EmulsionName (value)
+    setValue (self.photo, "Frame_EmulsionName", value)
+end
+ 
+function Metadata:Frame_BoxISO ()
+    return getValue (self.photo, "Frame_BoxISO")
+end
+function Metadata:setFrame_BoxISO (value)
+    setValue (self.photo, "Frame_BoxISO", value)
+end
+ 
+function Metadata:Frame_RatedISO ()
+    return getValue (self.photo, "Frame_RatedISO")
+end
+function Metadata:setFrame_RatedISO (value)
+    setValue (self.photo, "Frame_RatedISO", value)
+end
+ 
+function Metadata:Frame_LensName ()
+    return getValue (self.photo, "Frame_LensName")
+end
+function Metadata:setFrame_LensName (value)
+    setValue (self.photo, "Frame_LensName", value)
+end
+ 
+function Metadata:Frame_FocalLength ()
+    return getValue (self.photo, "Frame_FocalLength")
+end
+function Metadata:setFrame_FocalLength (value)
+    setValue (self.photo, "Frame_FocalLength", value)
+end
+ 
+function Metadata:Frame_FStop ()
+    return getValue (self.photo, "Frame_FStop")
+end
+function Metadata:setFrame_FStop (value)
+    setValue (self.photo, "Frame_FStop", value)
+end
+ 
+function Metadata:Frame_Shutter ()
+    return getValue (self.photo, "Frame_Shutter")
+end
+function Metadata:setFrame_Shutter (value)
+    setValue (self.photo, "Frame_Shutter", value)
+end
+ 
+
+function Metadata:make (photo) 
+    local metadata = {}
+    setmetatable (metadata, self)
+    self.__index = self
+
+    metadata.photo = photo
+
+    return metadata
+end
 
 return {
     make = function (photo)
-        local metadata = {}
-        metadata.photo = photo
-
-        setmetatable (metadata, Metatable)
-
-        return metadata
+        log:trace ("meta hello")
+        return Metadata:make (photo)
     end
 }

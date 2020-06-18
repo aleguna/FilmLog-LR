@@ -24,29 +24,29 @@ end
 local function saveMetadata (photo, rollData, frameIndex)
     local meta = FilmShotsMetadata.make (photo)
 
-    meta.Roll_UID = nil
-    meta.Roll_Name = rollData.name
-    meta.Roll_Mode = rollData.mode
-    meta.Roll_Status = rollData.status
-    meta.Roll_Comment = rollData.comment
-    meta.Roll_Thumbnail = nil
-    meta.Roll_CreationTimeUnix = rollData.timestamp
-    meta.Roll_CameraName = rollData.cameraName
-    meta.Roll_FormatName = rollData.formatName
+    meta:setRoll_UID (nil)
+    meta:setRoll_Name (rollData.name)
+    meta:setRoll_Mode (rollData.mode)
+    meta:setRoll_Status (rollData.status)
+    meta:setRoll_Comment (rollData.comment)
+    meta:setRoll_Thumbnail (nil)
+    meta:setRoll_CreationTimeUnix (rollData.timestamp)
+    meta:setRoll_CameraName (rollData.cameraName)
+    meta:setRoll_FormatName (rollData.formatName)
     
-    meta.Frame_LocalTimeIso8601 = rollData.frames[frameIndex].localTime
-    meta.Frame_Thumbnail = nil
-    meta.Frame_Latitude = tostring (rollData.frames[frameIndex].latitude)
-    meta.Frame_Longitude = tostring (rollData.frames[frameIndex].longitude)
-    meta.Frame_Locality = rollData.frames[frameIndex].locality
-    meta.Frame_Comment = rollData.frames[frameIndex].comment
-    meta.Frame_EmulsionName = rollData.frames[frameIndex].emulsionName
-    meta.Frame_BoxISO = tostring (rollData.frames[frameIndex].boxIsoSpeed)
-    meta.Frame_RatedISO = tostring (rollData.frames[frameIndex].ratedIsoSpeed)
-    meta.Frame_LensName = rollData.frames[frameIndex].lensName
-    meta.Frame_FocalLength = tostring (rollData.frames[frameIndex].focalLength)
-    meta.Frame_FStop = tostring (rollData.frames[frameIndex].aperture)
-    meta.Frame_Shutter = rollData.frames[frameIndex].shutterSpeed
+    meta:setFrame_LocalTimeIso8601 (rollData.frames[frameIndex].localTime)
+    meta:setFrame_Thumbnail (nil)
+    meta:setFrame_Latitude (tostring (rollData.frames[frameIndex].latitude))
+    meta:setFrame_Longitude (tostring (rollData.frames[frameIndex].longitude))
+    meta:setFrame_Locality (rollData.frames[frameIndex].locality)
+    meta:setFrame_Comment (rollData.frames[frameIndex].comment)
+    meta:setFrame_EmulsionName (rollData.frames[frameIndex].emulsionName)
+    meta:setFrame_BoxISO (tostring (rollData.frames[frameIndex].boxIsoSpeed))
+    meta:setFrame_RatedISO (tostring (rollData.frames[frameIndex].ratedIsoSpeed))
+    meta:setFrame_LensName (rollData.frames[frameIndex].lensName)
+    meta:setFrame_FocalLength (tostring (rollData.frames[frameIndex].focalLength))
+    meta:setFrame_FStop (tostring (rollData.frames[frameIndex].aperture))
+    meta:setFrame_Shutter (rollData.frames[frameIndex].shutterSpeed)
 
 end
 

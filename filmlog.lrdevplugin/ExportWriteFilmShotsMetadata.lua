@@ -1,28 +1,51 @@
+local LrPathUtils = import 'LrPathUtils'
+local LrTasks = import 'LrTasks'
+
+local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
+require 'log.lua'
+
+local function addExifKey (command, key, val)
+    if val then 
+        return string.format ("%s -%s=\"%s\"", command, key, val)
+    end
+
+    return command
+end
 
 local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_UID")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_Name")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_Mode")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_Status")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_Comment")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_Thumbnail")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_CreationTimeUnix")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_CameraName")
-    photo:getPropertyForPlugin (_PLUGIN, "Roll_FormatName")
+    local meta = FilmShotsMetadata.make (photo)
+
+    log:tracef ("buildExiftoolCommand: %s / %s ", exiftoolPath, photoPath)
+
+    local command = exiftoolPath
+
+    --meta.Roll_UID
+    --command = addExifKey (command, "", meta.Roll_Name)
+    --meta.Roll_Mode
+    --meta.Roll_Status
+    --command = addExifKey (command, "", meta.Roll_Comment)
+    --command = addExifKey (command, "", meta.Roll_Thumbnail)
+    --command = addExifKey (command, "", meta.Roll_CreationTimeUnix)
+    command = addExifKey (command, "Model", meta:Roll_CameraName())
+    --command = addExifKey (command, "", meta.Roll_FormatName)
     
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_LocalTimeIso8601")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Thumbnail")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Latitude")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Longitude")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Locality")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Comment")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_EmulsionName")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_BoxISO")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_RatedISO")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_LensName")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_FocalLength")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_FStop")
-    photo:getPropertyForPlugin (_PLUGIN, "Frame_Shutter")
+    --command = addExifKey (command, "", meta.Frame_LocalTimeIso8601)
+    --command = addExifKey (command, "", meta.Frame_Thumbnail)
+    --command = addExifKey (command, "", meta.Frame_Latitude)
+    --command = addExifKey (command, "", meta.Frame_Longitude)
+    --command = addExifKey (command, "", meta.Frame_Locality)
+    --command = addExifKey (command, "", meta.Frame_Comment)
+    command = addExifKey (command, "Make", meta:Frame_EmulsionName())
+    --command = addExifKey (command, "", meta.Frame_BoxISO)
+    --command = addExifKey (command, "", meta.Frame_RatedISO)
+    --command = addExifKey (command, "", meta.Frame_LensName)
+    --command = addExifKey (command, "", meta.Frame_FocalLength)
+    --command = addExifKey (command, "", meta.Frame_FStop)
+    --command = addExifKey (command, "", meta.Frame_Shutter)
+
+    command = command .. " " .. photoPath
+
+    return command
 end
 
 local function postProcessRenderedPhotos (functionContext, filterContext)
@@ -30,11 +53,12 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
     if WIN_ENV == true then
         exiftoolPath = LrPathUtils.child(_PLUGIN.path, "exiftool/windows/exiftool.exe" )
     end
+    log:tracef ("exiftool: %s", exiftoolPath)
 	
 	for sourceRendition, renditionToSatisfy in filterContext:renditions( renditionOptions ) do
 		-- Wait for the upstream task to finish its work on this photo.
 		
-		local success, _ = sourceRendition:waitForRender()
+		local success, pathOrError = sourceRendition:waitForRender()
 		
 		if success then
 			-- Now that the photo is completed and available to this filter, you can do your work on the photo here.
@@ -42,10 +66,13 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
             -- with the entry added in the export dialog section.
 
             local command = buildExiftoolCommand (exiftoolPath, sourceRendition.destinationPath, sourceRendition.photo)
+            log:tracef ("command: %s", command)
+
 			if LrTasks.execute (command) ~= 0 then
 				renditionToSatisfy:renditionIsDone( false, "Failed to execute Exiftool" )
 			end
-		
+        else
+            log.tracef ("waitForRender: %s", pathOrError)
 		end
 	
 	end
