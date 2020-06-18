@@ -21,7 +21,7 @@ local function readFile (path)
     return str;
 end
 
-local function saveMetadata (photo, rollData, frameIndex)
+local function saveMetadata (photo, rollData, frameData)
     local meta = FilmShotsMetadata.make (photo)
 
     meta:setRoll_UID (nil)
@@ -34,20 +34,29 @@ local function saveMetadata (photo, rollData, frameIndex)
     meta:setRoll_CameraName (rollData.cameraName)
     meta:setRoll_FormatName (rollData.formatName)
     
-    meta:setFrame_LocalTimeIso8601 (rollData.frames[frameIndex].localTime)
+    meta:setFrame_LocalTimeIso8601 (frameData.localTime)
     meta:setFrame_Thumbnail (nil)
-    meta:setFrame_Latitude (tostring (rollData.frames[frameIndex].latitude))
-    meta:setFrame_Longitude (tostring (rollData.frames[frameIndex].longitude))
-    meta:setFrame_Locality (rollData.frames[frameIndex].locality)
-    meta:setFrame_Comment (rollData.frames[frameIndex].comment)
-    meta:setFrame_EmulsionName (rollData.frames[frameIndex].emulsionName)
-    meta:setFrame_BoxISO (tostring (rollData.frames[frameIndex].boxIsoSpeed))
-    meta:setFrame_RatedISO (tostring (rollData.frames[frameIndex].ratedIsoSpeed))
-    meta:setFrame_LensName (rollData.frames[frameIndex].lensName)
-    meta:setFrame_FocalLength (tostring (rollData.frames[frameIndex].focalLength))
-    meta:setFrame_FStop (tostring (rollData.frames[frameIndex].aperture))
-    meta:setFrame_Shutter (rollData.frames[frameIndex].shutterSpeed)
+    meta:setFrame_Latitude (tostring (frameData.latitude))
+    meta:setFrame_Longitude (tostring (frameData.longitude))
+    meta:setFrame_Locality (frameData.locality)
+    meta:setFrame_Comment (frameData.comment)
+    meta:setFrame_EmulsionName (frameData.emulsionName)
+    meta:setFrame_BoxISO (tostring (frameData.boxIsoSpeed))
+    meta:setFrame_RatedISO (tostring (frameData.ratedIsoSpeed))
+    meta:setFrame_LensName (frameData.lensName)
+    meta:setFrame_FocalLength (tostring (frameData.focalLength))
+    meta:setFrame_FStop (tostring (frameData.aperture))
+    meta:setFrame_Shutter (frameData.shutterSpeed)
 
+end
+
+local function findFrame (rollData, frameIndex)
+    for _, frame in ipairs (rollData.frames) do
+        if frame.frameIndex == frameIndex then
+            return frame
+        end
+    end
+    return nil
 end
 
 local function applyFilmShotsMetadataToPhoto (catalog, photo, frameIndex) 
@@ -60,10 +69,15 @@ local function applyFilmShotsMetadataToPhoto (catalog, photo, frameIndex)
             local jsonString = readFile (jsonPath)
             if jsonString then
                 local filmShotsMetadata = json.decode (jsonString)
-                if filmShotsMetadata then
-                    catalog:withPrivateWriteAccessDo (function (context)
-                        saveMetadata (photo, filmShotsMetadata[1], tonumber (frameIndex))
-                    end)
+                if filmShotsMetadata and #filmShotsMetadata == 1 then
+                    local frameData = findFrame (filmShotsMetadata[1], tonumber (frameIndex))
+                    if frameData then
+                        catalog:withPrivateWriteAccessDo (function (context)
+                            saveMetadata (photo, filmShotsMetadata[1], frameData)
+                        end)
+                    else
+                        LrDialogs.message ("Couldn't find frame with index ".. frameIndex) 
+                    end
                 else
                     LrDialogs.message ("Incorrect file format "..jsonPath)
                 end
