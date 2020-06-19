@@ -15,29 +15,23 @@ end
 
 local MetadataMap = {
 
- Title = "Roll_Name",
- Caption = "Frame_Locality",
- UserComment = "Frame_Comment",
-
- Make = "Frame_EmulsionName",
- Model = "Roll_CameraName",
-
- DateTime = "Frame_LocalTime",
- DateTimeOriginal = "Frame_LocalTime",
-
- GPSLatitude = "Frame_Latitude",
- GPSLongitude = "Frame_Longitude",
-
- ISO = "Frame_EffectiveISO",
-
- LensModel = "Frame_LensName",
- Lens = "Frame_LensName",
-
- FocalLength = "Frame_FocalLength",
- FNumber = "Frame_FStop",
- ApertureValue = "Frame_FStop",
- ExposureTime = "Frame_Shutter",
- ShutterSpeedValue = "Frame_Shutter",    
+    {key = "Title", val = "Roll_Name"},
+    {key = "Caption", val = "Frame_Locality"},
+    {key = "UserComment", val = "Frame_Comment"},
+    {key = "Make", val = "Frame_EmulsionName"},
+    {key = "Model", val = "Roll_CameraName"},
+    {key = "DateTime", val = "Frame_LocalTime"},
+    {key = "DateTimeOriginal", val = "Frame_LocalTime"},
+    {key = "GPSLatitude", val = "Frame_Latitude"},
+    {key = "GPSLongitude", val = "Frame_Longitude"},
+    {key = "ISO", val = "Frame_EffectiveISO"},
+    {key = "LensModel", val = "Frame_LensName"},
+    {key = "Lens", val = "Frame_LensName"},
+    {key = "FocalLength", val = "Frame_FocalLength"},
+    {key = "FNumber", val = "Frame_FStop"},
+    {key = "ApertureValue", val = "Frame_FStop"},
+    {key = "ExposureTime", val = "Frame_Shutter"},
+    {key = "ShutterSpeedValue", val = "Frame_Shutter"},    
 }
 
 local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
@@ -47,8 +41,8 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
 
     local command = exiftoolPath
 
-    for key,val in pairs (MetadataMap) do
-        command = addExifKey (command, key, meta[val](meta))
+    for _, pair in ipairs (MetadataMap) do
+        command = addExifKey (command, pair.key, meta[pair.val](meta))
     end
 
     command = command .. " -overwrite_original " .. photoPath
@@ -87,15 +81,40 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
 end
 
 local function sectionForFilterInDialog (f, propertyTable )
-	return {
-		title = "Film Shots Metadata",
-		f:row {
+
+    local column = {
+        spacing = f:control_spacing(),
+        f:row {
 			spacing = f:control_spacing(),
 			f:static_text {
-				title = "Hello",
+				title = "Update tags:",
 				fill_horizontal = 1,
             },
         }
+    }
+
+    for _, pair in ipairs (MetadataMap) do
+        table.insert (column,  f:row {
+			spacing = f:control_spacing(),
+			f:static_text {
+				title = pair.key,
+				fill_horizontal = 1,
+            },
+            f:static_text {
+                title = "to",
+                font = "<system/bold>",
+				fill_horizontal = 1,
+            },
+            f:static_text {
+				title = pair.val,
+				fill_horizontal = 1,
+            },
+        })
+    end
+
+	return {
+        title = "Film Shots Metadata",
+        f:column (column)
     }
 end
 
