@@ -43,12 +43,7 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
     command = addExifKey (command, "UserComment", meta:Frame_Comment())
     command = addExifKey (command, "Make", meta:Frame_EmulsionName())
 
-    
-    if meta:Frame_RatedISO() then
-        command = addExifKey (command, "ISO", meta:Frame_RatedISO())
-    else
-        command = addExifKey (command, "ISO", meta:Frame_BoxISO())
-    end
+    command = addExifKey (command, "ISO", meta:Frame_EffectiveISO())
 
     command = addExifKey (command, "LensModel", meta:Frame_LensName())
     command = addExifKey (command, "Lens", meta:Frame_LensName())

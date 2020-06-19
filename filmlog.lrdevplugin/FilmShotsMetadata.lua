@@ -152,6 +152,14 @@ end
 function Metadata:setFrame_RatedISO (value)
     setValue (self.photo, "Frame_RatedISO", value)
 end
+
+function Metadata:Frame_EffectiveISO ()
+    if self:Frame_RatedISO() then
+        return self:Frame_RatedISO()
+    end
+    
+    return self:Frame_BoxISO ()
+end
  
 function Metadata:Frame_LensName ()
     return getValue (self.photo, "Frame_LensName")
