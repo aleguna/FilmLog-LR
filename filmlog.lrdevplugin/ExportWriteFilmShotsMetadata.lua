@@ -87,7 +87,8 @@ local function sectionForFilterInDialog (f, propertyTable )
         f:row {
 			spacing = f:control_spacing(),
 			f:static_text {
-				title = "Update tags:",
+                title = "Update tags:",
+                font = "<system/bold>",
 				fill_horizontal = 1,
             },
         }
@@ -103,7 +104,6 @@ local function sectionForFilterInDialog (f, propertyTable )
             f:static_text {
                 title = "to",
                 font = "<system/bold>",
-				fill_horizontal = 1,
             },
             f:static_text {
 				title = pair.val,
