@@ -3,6 +3,15 @@ require 'log.lua'
 local Metadata = {
 }
 
+local function toExifDate (iso8601)
+    local t = {
+        ["T"] = '',
+        ["-"] = ':'
+    }
+    return string.gsub (iso8601, '[T,-]', t)
+end
+
+
 local function setValue (photo, key, value)
     log:tracef ("setPropertyForPlugin %s = %s", key, value)
     photo:setPropertyForPlugin (_PLUGIN, key, value)
@@ -82,6 +91,10 @@ function Metadata:Frame_LocalTimeIso8601 ()
 end
 function Metadata:setFrame_LocalTimeIso8601 (value)
     setValue (self.photo, "Frame_LocalTimeIso8601", value)
+end
+
+function Metadata:Frame_LocalTime ()
+    return toExifDate (self:Frame_LocalTimeIso8601())
 end
  
 function Metadata:Frame_Thumbnail ()

@@ -13,14 +13,6 @@ local function addExifKey (command, key, val)
     return command
 end
 
-local function toExifDate (iso8601)
-    local t = {
-        ["T"] = '',
-        ["-"] = ':'
-    }
-    return string.gsub (iso8601, '[T,-]', t)
-end
-
 local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
     local meta = FilmShotsMetadata.make (photo)
 
@@ -38,7 +30,7 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
     command = addExifKey (command, "Model", meta:Roll_CameraName())
     --command = addExifKey (command, "", meta:Roll_FormatName)
 
-    local exifDate = toExifDate (meta:Frame_LocalTimeIso8601())
+    local exifDate = meta:Frame_LocalTime()
     
     command = addExifKey (command, "DateTime", exifDate)
     command = addExifKey (command, "DateTimeOriginal", exifDate)
