@@ -30,11 +30,11 @@ return {
 			file = "ExportWriteFilmShotsMetadata.lua",
 			id = "export",
 		},
-	}
+	},
 	
 	-- Add the entry for the Plug-in Manager Dialog
 	--LrPluginInfoProvider = 'PluginInfoProvider.lua',
 	
-	--VERSION = { major=9, minor=1, revision=0, build="YYYYMMDDHHmm-abcs1234", },
+	VERSION = { major=0, minor=1, revision=0},
 
 }
