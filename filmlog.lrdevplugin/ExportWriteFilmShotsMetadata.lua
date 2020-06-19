@@ -13,6 +13,33 @@ local function addExifKey (command, key, val)
     return command
 end
 
+local MetadataMap = {
+
+ Title = "Roll_Name",
+ Caption = "Frame_Locality",
+ UserComment = "Frame_Comment",
+
+ Make = "Frame_EmulsionName",
+ Model = "Roll_CameraName",
+
+ DateTime = "Frame_LocalTime",
+ DateTimeOriginal = "Frame_LocalTime",
+
+ GPSLatitude = "Frame_Latitude",
+ GPSLongitude = "Frame_Longitude",
+
+ ISO = "Frame_EffectiveISO",
+
+ LensModel = "Frame_LensName",
+ Lens = "Frame_LensName",
+
+ FocalLength = "Frame_FocalLength",
+ FNumber = "Frame_FStop",
+ ApertureValue = "Frame_FStop",
+ ExposureTime = "Frame_Shutter",
+ ShutterSpeedValue = "Frame_Shutter",    
+}
+
 local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
     local meta = FilmShotsMetadata.make (photo)
 
@@ -20,40 +47,9 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
 
     local command = exiftoolPath
 
-    --meta:Roll_UID
-    command = addExifKey (command, "Title", meta:Roll_Name())
-    --meta:Roll_Mode
-    --meta:Roll_Status
-    --command = addExifKey (command, "", meta:Roll_Comment)
-    --command = addExifKey (command, "", meta:Roll_Thumbnail)
-    --command = addExifKey (command, "", meta:Roll_CreationTimeUnix)
-    command = addExifKey (command, "Model", meta:Roll_CameraName())
-    --command = addExifKey (command, "", meta:Roll_FormatName)
-
-    local exifDate = meta:Frame_LocalTime()
-    
-    command = addExifKey (command, "DateTime", exifDate)
-    command = addExifKey (command, "DateTimeOriginal", exifDate)
-
-    --command = addExifKey (command, "", meta:Frame_Thumbnail)
-    command = addExifKey (command, "GPSLatitude", meta:Frame_Latitude())
-    command = addExifKey (command, "GPSLongitude", meta:Frame_Longitude())
-
-    command = addExifKey (command, "Caption", meta:Frame_Locality())
-    command = addExifKey (command, "UserComment", meta:Frame_Comment())
-    command = addExifKey (command, "Make", meta:Frame_EmulsionName())
-
-    command = addExifKey (command, "ISO", meta:Frame_EffectiveISO())
-
-    command = addExifKey (command, "LensModel", meta:Frame_LensName())
-    command = addExifKey (command, "Lens", meta:Frame_LensName())
-    command = addExifKey (command, "FocalLength", meta:Frame_FocalLength())
-
-    command = addExifKey (command, "FNumber", meta:Frame_FStop())
-    command = addExifKey (command, "ApertureValue", meta:Frame_FStop())
-
-    command = addExifKey (command, "ExposureTime", meta:Frame_Shutter())
-    command = addExifKey (command, "ShutterSpeedValue", meta:Frame_Shutter())
+    for key,val in pairs (MetadataMap) do
+        command = addExifKey (command, key, meta[val](meta))
+    end
 
     command = command .. " -overwrite_original " .. photoPath
 
