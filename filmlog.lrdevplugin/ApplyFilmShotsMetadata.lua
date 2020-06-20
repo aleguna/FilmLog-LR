@@ -24,7 +24,7 @@ end
 local function saveMetadata (photo, rollData, frameData)
     local meta = FilmShotsMetadata.make (photo)
 
-    meta:setRoll_UID (nil)
+    meta:setRoll_UID (rollData.uuid)
     meta:setRoll_Name (rollData.name)
     meta:setRoll_Mode (rollData.mode)
     meta:setRoll_Status (rollData.status)
