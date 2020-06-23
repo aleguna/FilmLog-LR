@@ -12,6 +12,7 @@ LUA_FILES = ApplyFilmShotsMetadata.lua \
 
 filmlog.lrplugin.zip : ${LUA_FILES}
 	cp -r filmlog.lrdevplugin/exiftool filmlog.lrplugin
+	cp LICENSE filmlog.lrplugin
 	zip -r filmlog.lrplugin.zip filmlog.lrplugin
 
 ${LUA_FILES}: %.lua : filmlog.lrdevplugin/%.lua
