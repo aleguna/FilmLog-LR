@@ -45,7 +45,7 @@ local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
         command = addExifKey (command, pair.key, meta[pair.val](meta))
     end
 
-    command = command .. " -overwrite_original " .. photoPath
+    command = command .. " -overwrite_original " .. "\"" .. photoPath .. "\""
 
     return command
 end
@@ -67,7 +67,11 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
 			-- In this example, the renditions are passed to an external application that updates the Creator metadata
             -- with the entry added in the export dialog section.
 
+            exiftoolPath = "\""..exiftoolPath.."\""
             local command = buildExiftoolCommand (exiftoolPath, sourceRendition.destinationPath, sourceRendition.photo)
+            if WIN_ENV == true then
+                command = "\"" .. command .. "\""
+            end
             log:tracef ("command: %s", command)
 
 			if LrTasks.execute (command) ~= 0 then
