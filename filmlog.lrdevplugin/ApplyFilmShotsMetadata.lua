@@ -6,7 +6,7 @@ local LrPathUtils = import 'LrPathUtils'
 local LrFileUtils = import 'LrFileUtils'
 
 local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
-local json = require 'json.lua'
+local json = require 'dkjson.lua'
 require 'log.lua'
 
 local function readFile (path)
