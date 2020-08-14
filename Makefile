@@ -7,7 +7,7 @@ LUA_FILES = ApplyFilmShotsMetadata.lua \
 	FilmShotsMetadataTagset.lua \
 	Info.lua \
 	import.lua \
-	json.lua \
+	dkjson.lua \
 	log.lua
 
 filmlog.lrplugin.zip : ${LUA_FILES}
