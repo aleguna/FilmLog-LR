@@ -1,4 +1,5 @@
 LUAC = "sdk/Lua Compiler/mac/luac"
+LUA = "/usr/local/bin/lua"
 
 LUA_FILES = ApplyFilmShotsMetadata.lua \
 	ExportWriteFilmShotsMetadata.lua \
@@ -18,3 +19,7 @@ filmlog.lrplugin.zip : ${LUA_FILES}
 ${LUA_FILES}: %.lua : filmlog.lrdevplugin/%.lua
 	${LUAC} -o filmlog.lrplugin/$@ $<
 
+.PHONY: test
+test: 
+	${LUA} test/TestExifToolExport.lua
+	
