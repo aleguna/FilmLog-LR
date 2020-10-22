@@ -6,6 +6,7 @@ LUA_FILES = ApplyFilmShotsMetadata.lua \
 	FilmShotsMetadata.lua \
 	FilmShotsMetadataDefinition.lua \
 	FilmShotsMetadataTagset.lua \
+	ExiftoolInterface.lua \
 	Info.lua \
 	import.lua \
 	dkjson.lua \
