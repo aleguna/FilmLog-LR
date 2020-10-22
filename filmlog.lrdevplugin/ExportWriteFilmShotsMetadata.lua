@@ -2,53 +2,9 @@ local LrPathUtils = import 'LrPathUtils'
 local LrTasks = import 'LrTasks'
 
 local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
+local exiftool = require 'ExiftoolInterface'
+
 require 'log.lua'
-
-local function addExifKey (command, key, val)
-    log:tracef ("addExifKey: %s = %s", key, val)
-    if val then 
-        return string.format ("%s -%s=\"%s\"", command, key, val)
-    end
-
-    return command
-end
-
-local MetadataMap = {
-
-    {key = "Title", val = "Roll_Name"},
-    {key = "Caption", val = "Frame_Locality"},
-    {key = "UserComment", val = "Frame_Comment"},
-    {key = "Make", val = "Frame_EmulsionName"},
-    {key = "Model", val = "Roll_CameraName"},
-    {key = "DateTime", val = "Frame_LocalTime"},
-    {key = "DateTimeOriginal", val = "Frame_LocalTime"},
-    {key = "GPSLatitude", val = "Frame_Latitude"},
-    {key = "GPSLongitude", val = "Frame_Longitude"},
-    {key = "ISO", val = "Frame_EffectiveISO"},
-    {key = "LensModel", val = "Frame_LensName"},
-    {key = "Lens", val = "Frame_LensName"},
-    {key = "FocalLength", val = "Frame_FocalLength"},
-    {key = "FNumber", val = "Frame_FStop"},
-    {key = "ApertureValue", val = "Frame_FStop"},
-    {key = "ExposureTime", val = "Frame_Shutter"},
-    {key = "ShutterSpeedValue", val = "Frame_Shutter"},    
-}
-
-local function buildExiftoolCommand (exiftoolPath, photoPath, photo)
-    local meta = FilmShotsMetadata.make (photo)
-
-    log:tracef ("buildExiftoolCommand: %s / %s ", exiftoolPath, photoPath)
-
-    local command = exiftoolPath
-
-    for _, pair in ipairs (MetadataMap) do
-        command = addExifKey (command, pair.key, meta[pair.val](meta))
-    end
-
-    command = command .. " -overwrite_original " .. "\"" .. photoPath .. "\""
-
-    return command
-end
 
 local function postProcessRenderedPhotos (functionContext, filterContext)
     local exiftoolPath = LrPathUtils.child(_PLUGIN.path, "exiftool/macos/exiftool" )
@@ -68,7 +24,11 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
             -- with the entry added in the export dialog section.
 
             exiftoolPath = "\""..exiftoolPath.."\""
-            local command = buildExiftoolCommand (exiftoolPath, sourceRendition.destinationPath, sourceRendition.photo)
+            local command = exiftool.buildCommand (
+                exiftoolPath,
+                sourceRendition.destinationPath,
+                FilmShotsMetadata.make (sourceRendition.photo)
+            )
             if WIN_ENV == true then
                 command = "\"" .. command .. "\""
             end
@@ -98,7 +58,7 @@ local function sectionForFilterInDialog (f, propertyTable )
         }
     }
 
-    for _, pair in ipairs (MetadataMap) do
+    for _, pair in ipairs (exiftool.MetadataMap) do
         table.insert (column,  f:row {
 			spacing = f:control_spacing(),
 			f:static_text {
