@@ -118,12 +118,18 @@ end
 function Metadata:Frame_Latitude ()
     return getValue (self.photo, "Frame_Latitude")
 end
+function Metadata:Frame_LatitudeRef ()
+    return "S"
+end
 function Metadata:setFrame_Latitude (value)
     setValue (self.photo, "Frame_Latitude", value)
 end
  
 function Metadata:Frame_Longitude ()
     return getValue (self.photo, "Frame_Longitude")
+end
+function Metadata:Frame_LongitudeRef ()
+    return "W"
 end
 function Metadata:setFrame_Longitude (value)
     setValue (self.photo, "Frame_Longitude", value)
