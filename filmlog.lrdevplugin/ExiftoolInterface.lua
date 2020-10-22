@@ -21,7 +21,7 @@ local MetadataMap = {
 }
 
 local function addExifKey (command, key, val)
-    log:tracef ("addExifKey: %s = %s", key, val)
+    --log:tracef ("addExifKey: %s = %s", key, val)
     if val then 
         return string.format ("%s -%s=\"%s\"", command, key, val)
     end
@@ -30,7 +30,7 @@ local function addExifKey (command, key, val)
 end
 
 local function buildExiftoolCommand (exiftoolPath, photoPath, meta)
-    log:tracef ("buildExiftoolCommand: %s / %s ", exiftoolPath, photoPath)
+    --log:tracef ("buildExiftoolCommand: %s / %s ", exiftoolPath, photoPath)
 
     local command = exiftoolPath
 

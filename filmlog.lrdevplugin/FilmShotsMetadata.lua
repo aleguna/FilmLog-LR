@@ -1,25 +1,36 @@
-require 'log.lua'
+--require 'log.lua'
 
 local Metadata = {
 }
 
 local function toExifDate (iso8601)
-    local t = {
-        ["T"] = '',
-        ["-"] = ':'
-    }
-    return string.gsub (iso8601, '[T,-]', t)
+    if iso8601 then
+        local t = {
+            ["T"] = '',
+            ["-"] = ':'
+        }
+        return string.gsub (iso8601, '[T,-]', t)
+    end
+
+    return nil
 end
 
 
 local function setValue (photo, key, value)
-    log:tracef ("setPropertyForPlugin %s = %s", key, value)
-    photo:setPropertyForPlugin (_PLUGIN, key, value)
+    --log:tracef ("setPropertyForPlugin %s = %s", key, value)
+    if photo["setPropertyForPlugin"] then
+        photo:setPropertyForPlugin (_PLUGIN, key, value)
+    end
 end
 
 local function getValue (photo, key)
-    local value = photo:getPropertyForPlugin (_PLUGIN, key)
-    log:tracef ("getPropertyForPlugin %s = %s", key, value)
+    local value = nil
+    if photo["getPropertyForPlugin"] then
+        value = photo:getPropertyForPlugin (_PLUGIN, key)
+    else
+        value = photo[key]
+    end
+    --log:tracef ("getPropertyForPlugin %s = %s", key, value)
     return value
 end
 
@@ -202,7 +213,7 @@ end
 
 return {
     make = function (photo)
-        log:trace ("meta hello")
+        --log:trace ("meta hello")
         return Metadata:make (photo)
     end
 }

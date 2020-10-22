@@ -4,14 +4,14 @@ local LrTasks = import 'LrTasks'
 local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
 local exiftool = require 'ExiftoolInterface'
 
-require 'log.lua'
+--require 'log.lua'
 
 local function postProcessRenderedPhotos (functionContext, filterContext)
     local exiftoolPath = LrPathUtils.child(_PLUGIN.path, "exiftool/macos/exiftool" )
     if WIN_ENV == true then
         exiftoolPath = LrPathUtils.child(_PLUGIN.path, "exiftool/windows/exiftool.exe" )
     end
-    log:tracef ("exiftool: %s", exiftoolPath)
+    --og:tracef ("exiftool: %s", exiftoolPath)
 	
 	for sourceRendition, renditionToSatisfy in filterContext:renditions( renditionOptions ) do
 		-- Wait for the upstream task to finish its work on this photo.
@@ -32,13 +32,13 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
             if WIN_ENV == true then
                 command = "\"" .. command .. "\""
             end
-            log:tracef ("command: %s", command)
+            --log:tracef ("command: %s", command)
 
 			if LrTasks.execute (command) ~= 0 then
 				renditionToSatisfy:renditionIsDone( false, "Failed to execute Exiftool" )
 			end
         else
-            log.tracef ("waitForRender: %s", pathOrError)
+            --log.tracef ("waitForRender: %s", pathOrError)
 		end
 	
 	end
