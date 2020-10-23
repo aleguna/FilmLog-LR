@@ -12,7 +12,7 @@ LUA_FILES = ApplyFilmShotsMetadata.lua \
 	dkjson.lua \
 	log.lua
 
-filmlog.lrplugin.zip : ${LUA_FILES}
+deliver : ${LUA_FILES}
 	cp -r filmlog.lrdevplugin/exiftool filmlog.lrplugin
 	cp LICENSE filmlog.lrplugin
 	zip -r filmlog.lrplugin.zip filmlog.lrplugin
