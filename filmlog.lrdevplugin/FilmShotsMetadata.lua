@@ -119,7 +119,13 @@ function Metadata:Frame_Latitude ()
     return getValue (self.photo, "Frame_Latitude")
 end
 function Metadata:Frame_LatitudeRef ()
-    return "S"
+    local latitude = tonumber (self:Frame_Latitude ())
+
+    if latitude < 0 then
+        return "S"
+    else
+        return "N"
+    end
 end
 function Metadata:setFrame_Latitude (value)
     setValue (self.photo, "Frame_Latitude", value)
@@ -129,7 +135,13 @@ function Metadata:Frame_Longitude ()
     return getValue (self.photo, "Frame_Longitude")
 end
 function Metadata:Frame_LongitudeRef ()
-    return "W"
+    local longitude = tonumber (self:Frame_Longitude ())
+
+    if longitude < 0 then
+        return "W"
+    else
+        return "E"
+    end
 end
 function Metadata:setFrame_Longitude (value)
     setValue (self.photo, "Frame_Longitude", value)
