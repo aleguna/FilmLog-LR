@@ -1,5 +1,5 @@
 LUAC = "sdk/Lua Compiler/mac/luac"
-LUA = "/usr/local/bin/lua"
+LUA = "lua"
 
 LUA_FILES = ApplyFilmShotsMetadata.lua \
 	ExportWriteFilmShotsMetadata.lua \
