@@ -1,5 +1,3 @@
-package.path = package.path .. ";./filmlog.lrdevplugin/?.lua"
-
 local lu = require ('luaunit')
 local exiftool = require 'ExiftoolInterface'
 local FilmShotsMetadata = require 'FilmShotsMetadata'

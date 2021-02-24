@@ -19,9 +19,11 @@ return {
 	},
 
     LrLibraryMenuItems = {
-        title = 'Apply Film Shots Metadata',
-        file = 'ApplyFilmShotsMetadata.lua',
-        enabledWhen = 'photosAvailable',
+		{
+			title = 'Import Film Shots Metadata ...',
+			file = 'import.lua',
+			enabledWhen = 'photosAvailable',
+		},
 	},
 	
 	LrExportFilterProvider = {
@@ -35,6 +37,6 @@ return {
 	-- Add the entry for the Plug-in Manager Dialog
 	--LrPluginInfoProvider = 'PluginInfoProvider.lua',
 	
-	VERSION = { major=0, minor=5, revision=0},
+	VERSION = { major=1, minor=0, revision=0},
 
 }
