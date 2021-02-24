@@ -27,7 +27,7 @@ jobs:
       
       # install lua
       - name: lua
-        run: sudo apt-get install lua luarocks
+        run: sudo apt-get install lua5.3 luarocks
         
       # install lua packages
       - name: luapkg
