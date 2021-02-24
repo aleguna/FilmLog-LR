@@ -27,11 +27,11 @@ jobs:
       
       # install lua
       - name: lua
-        run: apt-get install lua5.1 luarocks5.1
+        run: sudo apt-get install lua5.1 luarocks5.1
         
       # install lua packages
       - name: luapkg
-        run: luarocks install luaunit inspect
+        run: sudo luarocks install luaunit inspect
 
       # Runs a single command using the runners shell
       - name: test
