@@ -21,6 +21,9 @@ ${LUA_FILES}: %.lua : filmlog.lrdevplugin/%.lua
 	${LUAC} -o filmlog.lrplugin/$@ $<
 
 .PHONY: test
-test: 
-	${LUA} test/TestExifToolExport.lua
-	
+test:
+	@for f in $(shell ls test/*.lua); do	\
+		echo Test: $${f}			;		\
+		LUA_PATH="./filmlog.lrdevplugin/?.lua;;" ${LUA} $${f} -o TAP || exit 1 				\
+	; done
+		

@@ -1,4 +1,4 @@
---require 'log.lua'
+--require 'log'
 
 local Metadata = {
 }
@@ -15,11 +15,21 @@ local function toExifDate (iso8601)
     return nil
 end
 
+local function nillOrString (value)
+    if value then
+        return tostring (value)
+    end
+    return nil
+end
+
 
 local function setValue (photo, key, value)
-    --log:tracef ("setPropertyForPlugin %s = %s", key, value)
+    
     if photo["setPropertyForPlugin"] then
-        photo:setPropertyForPlugin (_PLUGIN, key, value)
+        print ("setPropertyForPlugin %s = %s", key, value)
+        photo:setPropertyForPlugin (_PLUGIN, key, nillOrString (value))
+    else
+        photo[key] = nillOrString (value)
     end
 end
 
@@ -30,8 +40,15 @@ local function getValue (photo, key)
     else
         value = photo[key]
     end
-    --log:tracef ("getPropertyForPlugin %s = %s", key, value)
+    
     return value
+end
+
+function Metadata:Frame_Index ()
+    return tonumber (getValue (self.photo, "Frame_Index"))
+end
+function Metadata:setFrame_Index (value)
+    setValue (self.photo, "Frame_Index", value)
 end
 
 function Metadata:Roll_UID ()

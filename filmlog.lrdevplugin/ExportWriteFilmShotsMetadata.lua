@@ -1,10 +1,10 @@
 local LrPathUtils = import 'LrPathUtils'
 local LrTasks = import 'LrTasks'
 
-local FilmShotsMetadata = require 'FilmShotsMetadata.lua'
+local FilmShotsMetadata = require 'FilmShotsMetadata'
 local exiftool = require 'ExiftoolInterface'
 
---require 'log.lua'
+--require 'log'
 
 local function postProcessRenderedPhotos (functionContext, filterContext)
     local exiftoolPath = LrPathUtils.child(_PLUGIN.path, "exiftool/macos/exiftool" )
