@@ -45,6 +45,11 @@ local function fromFile (path)
 end
 
 return {
+    Mode = {
+        ROLL = 'R',
+        SET = 'HS'
+    },
+
     fromJson = fromJson,
     fromFile = fromFile
 }

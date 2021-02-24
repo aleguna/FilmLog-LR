@@ -2,6 +2,8 @@ local lu = require 'luaunit'
 local inspect = require 'inspect'
 
 local FilmFramesImportDialog = require 'FilmFramesImportDialog'
+local FilmRoll = require 'FilmRoll'
+
 
 local print = function (...) end
 
@@ -169,6 +171,7 @@ function testWithFrames ()
         updateInfo = nil,
 
         roll = {
+            mode = FilmRoll.Mode.ROLL,
             frameCount = 3,
             frames = {
                 {
@@ -324,6 +327,207 @@ function testWithFrames ()
                                         },
                                         {
                                             title = "3 -  (0/0 sec @ 0.0)",
+                                            value = 3
+                                        } 
+                                    },
+                                    value = {
+                                        key =  {
+                                            bind_to_object = {filmFrameIndex=3},
+                                            key = "filmFrameIndex"
+                                        },
+                                        type = "binding"
+                                    }
+                                },
+                                type = "popup_menu"
+                            } 
+                        },
+                        type = "row"
+                      },
+                      spacing = 0
+                    },
+                    type = "column"
+                  },
+                  margin = 16,
+                  spacing = 0
+                },
+                type = "column"
+              },
+              height = 576.0
+            },
+            type = "scrolled_view"
+          },
+          spacing = 0
+        },
+        type = "column"
+    })
+end
+
+function testWithFrames_Holders ()
+    local content = FilmFramesImportDialog.build {        
+        LrView = LrViewMock,
+        LrHttp = LrHttpMock,
+        LrColor = LrColorMock,
+
+        size = {width = 1024, height=768},
+        updateInfo = nil,
+
+        roll = {
+            mode = FilmRoll.Mode.SET,
+            frameCount = 3,
+            frames = {
+                {
+                    frameIndex = 1
+                },
+                {
+                    frameIndex = 2
+                },
+                {
+                    frameIndex = 3
+                }
+            }
+        },
+
+        bindings = {
+            {
+                photo = {
+                    type = 'photo',
+                    fileName = 'Photo1.arw'
+                },
+                
+                binding = {
+                    filmFrameIndex = 1
+                }
+            },
+
+            {
+                photo = {
+                    type = 'photo',
+                    fileName = 'Photo2.arw'
+                },
+                binding = {
+                    filmFrameIndex = 3
+                }
+            }
+        },
+    }
+   
+    lu.assertEquals (content, {
+        args = { 
+            {
+                args = {
+                    title = ""
+                },
+                type = "static_text"
+            },
+            {
+                args = {
+                    title = "Pick the Film Shots frame for each Photo"
+                },
+                type = "static_text"
+            },
+            {
+            args = { 
+                {
+                args = { 
+                    {
+                    args = { 
+                        {
+                            args = {
+                                height = 256,
+                                photo = {
+                                    type = "photo",
+                                    fileName = "Photo1.arw"
+                                },
+                                width = 256
+                            },
+                            type = "catalog_photo"
+                        }, 
+                        {
+                            args = {
+                                title = "Photo1.arw"
+                            },
+                            type = "static_text"
+                        },
+                        {
+                            args = { 
+                                {
+                                    args = {
+                                        title = "Film frame: "
+                                    },
+                                    type = "static_text"
+                                }, 
+                                {
+                                    args = {
+                                        items = {
+                                            {
+                                                title = "1A -  (0/0 sec @ 0.0)",
+                                                value = 1
+                                            },
+                                            {
+                                                title = "1B -  (0/0 sec @ 0.0)",
+                                                value = 2
+                                            },
+                                            {
+                                                title = "2A -  (0/0 sec @ 0.0)",
+                                                value = 3
+                                            } 
+                                        },
+                                        value = {
+                                            key =  {
+                                                bind_to_object = {filmFrameIndex=1},
+                                                key = "filmFrameIndex"
+                                            },
+                                            
+                                            type = "binding"
+                                        }
+                                    },
+                                    type = "popup_menu"
+                                } 
+                            },
+                            type = "row"
+                        },  
+                        spacing = 0
+                    },
+                    type = "column"
+                  },
+                  {
+                    args = {
+                        {
+                        args = {
+                          height = 256,
+                          photo = {
+                            type = 'photo',
+                            fileName = "Photo2.arw"
+                          },
+                          width = 256
+                        },
+                        type = "catalog_photo"
+                      }, {
+                        args = {
+                          title = "Photo2.arw"
+                        },
+                        type = "static_text"
+                      }, {
+                        args = { 
+                            {
+                                args = {
+                                   title = "Film frame: "
+                                },
+                                type = "static_text"
+                            }, 
+                            {
+                                args = {                                  
+                                    items = {            
+                                        {
+                                            title = "1A -  (0/0 sec @ 0.0)",
+                                            value = 1
+                                        },
+                                        {
+                                            title = "1B -  (0/0 sec @ 0.0)",
+                                            value = 2
+                                        },
+                                        {
+                                            title = "2A -  (0/0 sec @ 0.0)",
                                             value = 3
                                         } 
                                     },

@@ -1,4 +1,5 @@
 local LightroomMetadata = require 'LightroomMetadata'
+local FrameDesignator = require 'FrameDesignator'
 
 local function makeFrameMenuItems (roll)
     local items = {}
@@ -7,8 +8,8 @@ local function makeFrameMenuItems (roll)
         for index = 1,roll.frameCount do 
             local frame = roll.frames[index]
             if frame then      
-                local title = string.format ("%d - %s (%s sec @ %.1f)",
-                        frame.frameIndex,
+                local title = string.format ("%s - %s (%s sec @ %.1f)",
+                        FrameDesignator.make (frame.frameIndex, roll.mode),
                         frame.locality or "",
                         frame.shutterSpeed or "0/0",
                         frame.aperture or 0.0
