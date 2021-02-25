@@ -1,5 +1,6 @@
 local FilmShotsMetadata = require 'FilmShotsMetadata'
 local LightroomMetadata = require 'LightroomMetadata'
+local FrameDesignator = require 'FrameDesignator'
 
 local function saveMetadata (photo, rollData, frameData)
     local meta = FilmShotsMetadata.make (photo)
@@ -15,6 +16,7 @@ local function saveMetadata (photo, rollData, frameData)
     meta:setRoll_FormatName (rollData.formatName)
 
     meta:setFrame_Index (frameData.frameIndex)
+    meta:setFrame_Designator (FrameDesignator.make (frameData.frameIndex, rollData.mode))
     meta:setFrame_LocalTimeIso8601 (frameData.localTime)
     meta:setFrame_Thumbnail (nil)
     meta:setFrame_Latitude (frameData.latitude)

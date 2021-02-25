@@ -2,10 +2,20 @@ return {
     metadataFieldsForPhotos = {
         {
             id = 'Frame_Index',
-            title = "Enter Frame Index: ",
+            title = "Frame Index ",
             dataType = 'string', 
             browsable = true,
             searchable = true,
+            readOnly = true
+        },
+
+        {
+            id = 'Frame_Designator',
+            title = "Frame Designator ",
+            dataType = 'string', 
+            browsable = true,
+            searchable = true,
+            readOnly = true
         },
 
         {
@@ -164,7 +174,7 @@ return {
       
     },
 
-    schemaVersion = 1,
+    schemaVersion = 2,
 	
     updateFromEarlierSchemaVersion = function (catalog, previousSchemaVersion)
     end,

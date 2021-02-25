@@ -51,6 +51,13 @@ function Metadata:setFrame_Index (value)
     setValue (self.photo, "Frame_Index", value)
 end
 
+function Metadata:Frame_Designator ()
+    return getValue (self.photo, "Frame_Designator")
+end
+function Metadata:setFrame_Designator (value)
+    setValue (self.photo, "Frame_Designator", value)
+end
+
 function Metadata:Roll_UID ()
     return getValue (self.photo, "Roll_UID")
 end
