@@ -1,4 +1,6 @@
-local json = require 'dkjson'
+require 'Use'
+
+local json = use 'lib.dkjson'
 
 local function fromJson (jsonString)
     if jsonString then

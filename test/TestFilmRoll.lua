@@ -1,5 +1,5 @@
 local lu = require 'luaunit'
-local FilmRoll = require 'FilmRoll'
+local FilmRoll = require 'leaf500.FilmRoll'
 
 
 function testEmpty()

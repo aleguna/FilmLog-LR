@@ -1,6 +1,6 @@
 local lu = require 'luaunit'
-local MetadataBindingTable = require 'MetadataBindingTable'
-local FilmRoll = require 'FilmRoll'
+local MetadataBindingTable = require 'leaf500.MetadataBindingTable'
+local FilmRoll = require 'leaf500.FilmRoll'
 
 function testEmpty()
     lu.assertTrue(true)

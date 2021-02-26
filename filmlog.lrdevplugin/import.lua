@@ -8,14 +8,13 @@ local LrSystemInfo = import 'LrSystemInfo'
 local LrHttp = import 'LrHttp'
 local LrBinding = import 'LrBinding'
 
-local FilmShotsMetadata = require 'FilmShotsMetadata'
-local FilmRoll = require 'FilmRoll'
-local FilmFramesImportDialog = require 'FilmFramesImportDialog'
-local UpdateChecker = require 'UpdateChecker'
-local MetadataBindingTable = require 'MetadataBindingTable'
+require 'Use'
 
-print = function (...)
-end
+local FilmShotsMetadata = use 'leaf500.FilmShotsMetadata'
+local FilmRoll = use 'leaf500.FilmRoll'
+local FilmFramesImportDialog = use 'leaf500.FilmFramesImportDialog'
+local UpdateChecker = use 'leaf500.UpdateChecker'
+local MetadataBindingTable = use 'leaf500.MetadataBindingTable'
 
 local function getCurrentFolder (catalog) 
     local sources = catalog:getActiveSources()
@@ -60,13 +59,7 @@ local function main (context)
         return
     end
 
-    
---    local logFile = io.open (LrPathUtils.child (folder:getPath(), "import.log"), "w")
-    --print = function (...)
-        --logFile:write (string.format (...).."\n")
---    end
-
-    local jsonPath = LrPathUtils.child (folder:getPath(), folder:getName()..".json")    
+    local jsonPath = LrPathUtils.addExtension (LrPathUtils.child (folder:getPath(), folder:getName()), "json")
     local roll = FilmRoll.fromFile (jsonPath)
     if roll == nil then
         LrDialogs.message ("Couldn't load Film Shots JSON file\n"  .. jsonPath)
@@ -80,9 +73,6 @@ local function main (context)
             MetadataBindingTable.apply (roll, bindings)
         end)
     end
-
-    --logFile:close ()
-
 end
 
 LrFunctionContext.postAsyncTaskWithContext ("showFilmShotsImportDialog", function (context)

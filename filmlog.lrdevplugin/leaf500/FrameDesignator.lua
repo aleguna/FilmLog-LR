@@ -1,4 +1,6 @@
-local FilmRoll = require 'FilmRoll'
+require 'Use'
+
+local FilmRoll = use 'leaf500.FilmRoll'
 
 local function make (index, mode)    
     if mode == FilmRoll.Mode.ROLL then

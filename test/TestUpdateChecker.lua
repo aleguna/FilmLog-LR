@@ -1,15 +1,5 @@
-local UpdateChecker = require 'UpdateChecker'
-
+local UpdateChecker = require 'leaf500.UpdateChecker'
 local lu = require 'luaunit'
-local inspect = require 'inspect'
-
-function LrHttpMock (info)
-    return {
-        get = function (url, headers, timeout)
-            return "return " .. inspect (info)
-        end
-    }
-end
 
 function LrHttpMockRaw (string)
     return {
@@ -24,15 +14,15 @@ function testEmpty()
 end
 
 function testNoUpdate_SameVersion ()
-    local info = {
+    local info = [[return {
         VERSION = {
             major = 1,
             minor = 0,
             revision = 1,
         }
-    }
+    }]]
 
-    local updateInfo = UpdateChecker.check (LrHttpMock (info), info)
+    local updateInfo = UpdateChecker.check (LrHttpMockRaw (info), loadstring (info)())
     lu.assertNil (updateInfo)
 end
 
@@ -64,7 +54,7 @@ function testNoUpdate_ReturnNull ()
         }
     }
 
-    local updateInfo = UpdateChecker.check (LrHttpMockRaw ("retrun {{major=1"), info)
+    local updateInfo = UpdateChecker.check (LrHttpMockRaw ("return {{major=1"), info)
     lu.assertNil (updateInfo)
 end
 
@@ -75,13 +65,13 @@ end
 
 --  shouldn't happen IRL
 function testNoUpdate_OlderVersion ()
-    local old = {
+    local old = [[return {
         VERSION = {
             major = 1,
             minor = 0,
             revision = 1,
         }
-    }
+    }]]
 
     local new = {
         VERSION = {
@@ -91,7 +81,7 @@ function testNoUpdate_OlderVersion ()
         }
     }
 
-    local updateInfo = UpdateChecker.check (LrHttpMock (old), new)
+    local updateInfo = UpdateChecker.check (LrHttpMockRaw (old), new)
     lu.assertNil (updateInfo)
 end
 
@@ -104,15 +94,15 @@ function testUpdate_Available ()
         }
     }
 
-    local new = {
+    local new = [[return {
         VERSION = {
             major = 1,
             minor = 3,
             revision = 1,
         }
-    }
+    }]]
 
-    local updateInfo = UpdateChecker.check (LrHttpMock (new), old)
+    local updateInfo = UpdateChecker.check (LrHttpMockRaw (new), old)
     lu.assertNotNil (updateInfo)
     lu.assertEquals (updateInfo.newVersion, "1.3.1")
 end

@@ -1,6 +1,6 @@
 local lu = require 'luaunit'
-local FrameDesignator = require 'FrameDesignator'
-local FilmRoll = require 'FilmRoll'
+local FrameDesignator = require 'leaf500.FrameDesignator'
+local FilmRoll = require 'leaf500.FilmRoll'
 
 function testEmpty()
     lu.assertTrue(true)

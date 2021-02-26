@@ -1,5 +1,3 @@
---require 'log'
-
 local Metadata = {
 }
 
@@ -24,9 +22,7 @@ end
 
 
 local function setValue (photo, key, value)
-    
     if photo["setPropertyForPlugin"] then
-        print ("setPropertyForPlugin %s = %s", key, value)
         photo:setPropertyForPlugin (_PLUGIN, key, nillOrString (value))
     else
         photo[key] = nillOrString (value)

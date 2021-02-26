@@ -1,6 +1,8 @@
-local FilmShotsMetadata = require 'FilmShotsMetadata'
-local LightroomMetadata = require 'LightroomMetadata'
-local FrameDesignator = require 'FrameDesignator'
+require 'Use'
+
+local FilmShotsMetadata = use 'leaf500.FilmShotsMetadata'
+local LightroomMetadata = use 'leaf500.LightroomMetadata'
+local FrameDesignator = use 'leaf500.FrameDesignator'
 
 local function saveMetadata (photo, rollData, frameData)
     local meta = FilmShotsMetadata.make (photo)
