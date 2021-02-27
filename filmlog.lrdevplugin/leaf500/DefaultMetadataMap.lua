@@ -1,5 +1,4 @@
-
-local MetadataMap = {
+local DefaultMetadataMap = {
 
     {key = "Title", val = "Roll_Name"},
     {key = "Caption", val = "Frame_Locality"},
@@ -22,30 +21,4 @@ local MetadataMap = {
     {key = "ShutterSpeedValue", val = "Frame_Shutter"},    
 }
 
-local function addExifKey (command, key, val)
-    --log:tracef ("addExifKey: %s = %s", key, val)
-    if val then 
-        return string.format ("%s -%s=\"%s\"", command, key, val)
-    end
-
-    return command
-end
-
-local function buildExiftoolCommand (exiftoolPath, photoPath, meta)
-    --log:tracef ("buildExiftoolCommand: %s / %s ", exiftoolPath, photoPath)
-
-    local command = exiftoolPath
-
-    for _, pair in ipairs (MetadataMap) do
-        command = addExifKey (command, pair.key, meta[pair.val](meta))
-    end
-
-    command = command .. " -overwrite_original " .. "\"" .. photoPath .. "\""
-
-    return command
-end
-
-return {
-    buildCommand = buildExiftoolCommand,
-    MetadataMap = MetadataMap
-}
+return DefaultMetadataMap

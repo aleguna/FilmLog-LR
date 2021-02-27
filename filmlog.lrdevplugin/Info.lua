@@ -1,5 +1,3 @@
-
-
 return {
 
 	LrSdkVersion = 9.0,
@@ -10,18 +8,18 @@ return {
 	LrPluginInfoUrl = "http://www.leaf500.com",
 	
 	-- Add the Metadata Definition File
-	LrMetadataProvider = 'FilmShotsMetadataDefinition.lua',
+	LrMetadataProvider = 'MetadataDefinition.lua',
 	
 	-- Add the Metadata Tagset File
 	LrMetadataTagsetFactory = {
-		'FilmShotsMetadataTagset.lua',
+		'MetadataTagset.lua',
 		--'AllMetadataTagset.lua',
 	},
 
     LrLibraryMenuItems = {
 		{
 			title = 'Import Film Shots Metadata ...',
-			file = 'import.lua',
+			file = 'Import.lua',
 			enabledWhen = 'photosAvailable',
 		},
 	},
@@ -29,7 +27,7 @@ return {
 	LrExportFilterProvider = {
 		{
 			title = "Write Film Shots Data",
-			file = "ExportWriteFilmShotsMetadata.lua",
+			file = "Export.lua",
 			id = "export",
 		},
 	},

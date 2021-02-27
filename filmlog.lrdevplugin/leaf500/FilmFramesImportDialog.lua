@@ -1,5 +1,7 @@
-local LightroomMetadata = require 'LightroomMetadata'
-local FrameDesignator = require 'FrameDesignator'
+require 'Use'
+
+local LightroomMetadata = use 'leaf500.LightroomMetadata'
+local FrameDesignator = use 'leaf500.FrameDesignator'
 
 local function makeFrameMenuItems (roll)
     local items = {}

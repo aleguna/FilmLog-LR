@@ -1,5 +1,7 @@
-local Version = require 'Version'
-local PluginInfo = require 'Info'
+require 'Use'
+
+local Version = use 'leaf500.Version'
+local PluginInfo = use 'Info'
 
 local VERSION_URL = "https://storage.googleapis.com/lrplugin.filmlog.leaf500.com/Info.lua"
 local DOWNLOAD_URL = "http://leaf500.com/lightroom-plugin"

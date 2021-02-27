@@ -1,5 +1,5 @@
 local lu = require 'luaunit'
-local Version = require 'Version'
+local Version = require 'leaf500.Version'
 
 function testEmpty()
     lu.assertTrue(true)

@@ -1,5 +1,5 @@
 LUAC = "sdk/Lua Compiler/mac/luac"
-LUA = "lua"
+LUA = "lua5.1"
 
 LUA_FILES = ApplyFilmShotsMetadata.lua \
 	ExportWriteFilmShotsMetadata.lua \
@@ -20,10 +20,14 @@ deliver : ${LUA_FILES}
 ${LUA_FILES}: %.lua : filmlog.lrdevplugin/%.lua
 	${LUAC} -o filmlog.lrplugin/$@ $<
 
+LUA_TEST_PATH="./filmlog.lrdevplugin/?.lua;./test/?.lua;;"
+LUA_TEST_ENV="_G.use=require"
+
 .PHONY: test
 test:
 	@for f in $(shell ls test/*.lua); do	\
 		echo Test: $${f}			;		\
-		LUA_PATH="./filmlog.lrdevplugin/?.lua;;" ${LUA} $${f} -o TAP || exit 1 				\
+		LUA_PATH=${LUA_TEST_PATH} ${LUA} -e "${LUA_TEST_ENV}" $${f} -o TAP || exit 1 				\
 	; done
+	@echo "ALL TEST PASS"
 		
