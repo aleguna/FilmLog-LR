@@ -54,7 +54,7 @@ function testBasic()
                 {
                     type = "static_text",
                     args = {
-                        title = "Pick the Film Shots frame for each Photo"
+                        title = "Pick a Film Shots frame for each Photo"
                     }
                 },
                 {
@@ -132,7 +132,7 @@ function testWithFrames()
                 },
                 {
                     args = {
-                        title = "Pick the Film Shots frame for each Photo"
+                        title = "Pick a Film Shots frame for each Photo"
                     },
                     type = "static_text"
                 },
@@ -333,7 +333,7 @@ function testWithFrames_Holders()
                 },
                 {
                     args = {
-                        title = "Pick the Film Shots frame for each Photo"
+                        title = "Pick a Film Shots frame for each Photo"
                     },
                     type = "static_text"
                 },

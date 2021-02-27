@@ -1,16 +1,21 @@
+require 'Logger'
 require 'Use'
 
 local json = use 'lib.dkjson'
 
 local function fromJson (jsonString)
+    log ("fromJson: ", tostring (jsonString:len()))
     if jsonString then
         local filmShotsMetadata, pos, error = json.decode (jsonString)
-        
+
         if filmShotsMetadata and #filmShotsMetadata == 1 then
             local filmFrames = {}
             local maxIndex = 0
-                        
+
+            log ("Frames: ", tostring (#filmShotsMetadata[1].frames))
+
             for _, frame in ipairs (filmShotsMetadata[1].frames) do
+                log ("Frame: ", tostring (frame.frameIndex))
                 filmFrames[frame.frameIndex] = frame
 
                 if frame.frameIndex > maxIndex then
@@ -18,11 +23,13 @@ local function fromJson (jsonString)
                 end
             end
 
+            log ("Frames: ", tostring (maxIndex))
+
             filmShotsMetadata[1].frameCount = maxIndex
             filmShotsMetadata[1].frames = filmFrames
             return filmShotsMetadata[1]
         else
-            --print ("Error: ", pos, error)
+            log ("JSON Error: ", pos, error)
         end
     end
 
