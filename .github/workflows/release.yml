@@ -70,7 +70,7 @@ jobs:
         with:
           upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the release step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./delivery/filmlog.lrplugin-${{ env.VERSION_TAG }}.zip
-          asset_name: filmlog.lrplugin-${{ env.VERSION_TAG }}
+          asset_name: filmlog.lrplugin-${{ env.VERSION_TAG }}.zip
           asset_content_type: application/zip
           
       - name: push
