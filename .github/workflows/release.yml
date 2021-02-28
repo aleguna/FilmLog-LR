@@ -26,7 +26,7 @@ jobs:
       - name: install
         run: sudo apt-get install lua5.1
         
-      - name: git:
+      - name: git
         run: |
           git config --global user.email "aleguna@gmail.com"
           git config --global user.name "Bip Bop"
