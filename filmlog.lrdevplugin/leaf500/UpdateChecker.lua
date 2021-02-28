@@ -1,6 +1,6 @@
 require 'Use'
 
-local Version = use 'leaf500.Version'
+local VersionUtils = use 'leaf500.VersionUtils'
 local PluginInfo = use 'Info'
 
 local VERSION_URL = "https://storage.googleapis.com/lrplugin.filmlog.leaf500.com/Info.lua"
@@ -25,7 +25,7 @@ local function check (LrHttp, INFO)
 
         if chunk then
             local NEW_INFO = chunk ()
-            if NEW_INFO and Version.newer (INFO.VERSION, NEW_INFO.VERSION)
+            if NEW_INFO and VersionUtils.newer (INFO.VERSION, NEW_INFO.VERSION)
             then
                 return {
                     newVersion = string.format ("%d.%d.%d", NEW_INFO.VERSION.major, NEW_INFO.VERSION.minor, NEW_INFO.VERSION.revision),
