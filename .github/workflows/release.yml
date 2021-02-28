@@ -37,8 +37,8 @@ jobs:
         
       - name: tag
         run: | 
-          git commit filmlog.lrdevplugin/Info.lua -m "Bump build ${{ VERSION_TAG }}"
-          git tag ${{ VERSION_TAG }}
+          git commit filmlog.lrdevplugin/Info.lua -m "Bump build ${{ env.VERSION_TAG }}"
+          git tag ${{ env.VERSION_TAG }}
                   
       - name: deliver
         run: make deliver
