@@ -21,11 +21,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: install
-        run: |
-          sudo apt-get install lua5.1
+        run: sudo apt-get install lua5.1
                 
       - name: test
         run: make test
@@ -40,6 +39,7 @@ jobs:
         run: make deliver
         
       - name: release
+        id: release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
@@ -49,6 +49,16 @@ jobs:
           body: develop release
           draft: true
           prerelease: true
+          
+      - name: upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the release step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./delivery/filmlog.lrplugin-${{ VERSION_TAG }}.zip
+          asset_name: filmlog.lrplugin-${{ VERSION_TAG }}
+          asset_content_type: application/zip
         
       
         
