@@ -2,6 +2,8 @@ local lu = require 'luaunit'
 local MetadataBindingTable = require 'leaf500.MetadataBindingTable'
 local FilmRoll = require 'leaf500.FilmRoll'
 
+local LrFolderMock = require 'mock.LrFolderMock'
+
 function testEmpty()
     lu.assertTrue(true)
 end
@@ -14,20 +16,6 @@ local LrBindingMock = {
         }
     end
 }
-
-local LrFolderMock = {
-}
-
-function LrFolderMock:getPhotos (recursive)
-    return self.photos
-end
-
-function LrFolderMock:make () 
-    local folder = {}
-    setmetatable (folder, self)
-    self.__index = self
-    return folder
-end
 
 function testBasic ()
     local context = {
@@ -277,13 +265,13 @@ function testSomeFramesAssigned_Stacked ()
 end
 
 function testApplyNilFrames ()
-    local roll = FilmRoll.fromFile ('test/data/test-1.json')
+    local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     roll.frames = nil
     MetadataBindingTable.apply (roll, {})
 end
 
 function testApplyEmptyBindings ()
-    local roll = FilmRoll.fromFile ('test/data/test-1.json')
+    local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     
     MetadataBindingTable.apply (roll, {})
 end
@@ -312,7 +300,7 @@ function testApplyNoBindings ()
         },
     }
 
-    local roll = FilmRoll.fromFile ('test/data/test-1.json')
+    local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     lu.assertNotNil (roll)
 
     local bindingTable = MetadataBindingTable.make (context, LrBindingMock, folder)
@@ -358,7 +346,7 @@ function testApplyBasic ()
         },
     }
 
-    local roll = FilmRoll.fromFile ('test/data/test-1.json')
+    local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     lu.assertNotNil (roll)
 
     local bindingTable = MetadataBindingTable.make (context, LrBindingMock, folder)
@@ -475,7 +463,7 @@ function testApplyBasic_Holders ()
         },
     }
 
-    local roll = FilmRoll.fromFile ('test/data/test-1.json')
+    local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     lu.assertNotNil (roll)
 
     --  Switch to Holder mode

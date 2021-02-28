@@ -1,4 +1,4 @@
-local FactoryMock = require 'LrViewFactoryMock' 
+local FactoryMock = require 'mock.LrViewFactoryMock' 
 
 local LrViewMock = {
     osFactory = function ()

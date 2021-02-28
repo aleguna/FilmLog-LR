@@ -24,11 +24,11 @@ local function writeLog (logPath, ...)
 end
 
 local function getLogger (prefix)
-    if _G.print then
+    if _G.print and not _PLUGIN then
         if os and os.getenv and os.getenv ('ENABLE_LOGGING') then        
             return print
         end            
-    else
+    elseif prefix and _PLUGIN and _PLUGIN.path then
         local suffix = getLogSuffix ()
         if suffix then
             local pu = import 'LrPathUtils'
@@ -51,10 +51,8 @@ local function getLogger (prefix)
 end
 
 local function startLog (prefix)
-    if prefix and _PLUGIN and _PLUGIN.path then
-        _G.log = getLogger (prefix)
-        log ("================== BEGIN: ", prefix , " ==================")
-    end
+    _G.log = getLogger (prefix)
+    log ("================== BEGIN: ", prefix , " ==================")
 end
 
 return startLog

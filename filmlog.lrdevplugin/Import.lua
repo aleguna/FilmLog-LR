@@ -17,20 +17,6 @@ local FilmFramesImportDialog = use 'leaf500.FilmFramesImportDialog'
 local UpdateChecker = use 'leaf500.UpdateChecker'
 local MetadataBindingTable = use 'leaf500.MetadataBindingTable'
 
-local function getCurrentFolder (catalog) 
-    local sources = catalog:getActiveSources()
-
-    for _, s in ipairs (sources) do
-        if s.type then
-            if s:type() == 'LrFolder' then
-                return s
-            end
-        end
-    end
-
-    return nil
-end
-
 local function showFilmShotsImportDialog (roll, bindings, updateInfo)  
     log ("showFilmShotsImportDialog")
     
@@ -64,27 +50,18 @@ local function main (context)
     log ("main")
 
     local catalog = LrApplication.activeCatalog ()
+
     local updateInfo = UpdateChecker.check (LrHttp, nil)
-
     log ("updateInfo: ", tostring (updateInfo))
-
-    local folder = getCurrentFolder (catalog)
-
-    if not folder then 
-        log ("Current folder nil")
-        LrDialogs.message ("Please select a folder first")
-        return
-    end
-
-    log ("Current folder: ", folder:getPath())
     
-    local jsonPath = LrPathUtils.addExtension (LrPathUtils.child (folder:getPath(), folder:getName()), "json")
+    local roll, jsonPath, folder = FilmRoll.fromCatalog (LrPathUtils, catalog)    
+    log ("roll: ", tostring (roll), ": ", tostring (jsonPath))
 
-    log ("JSON: ", jsonPath)
-
-    local roll = FilmRoll.fromFile (jsonPath)
-    if roll == nil then
+    if roll == nil and jsonPath then
         LrDialogs.message ("Couldn't load Film Shots JSON file\n"  .. jsonPath)
+        return
+    elseif roll == nil and jsonPath == nil then
+        LrDialogs.message ("Please select a folder first")
         return
     end
 

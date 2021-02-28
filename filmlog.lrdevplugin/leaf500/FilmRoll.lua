@@ -3,6 +3,23 @@ require 'Use'
 
 local json = use 'lib.dkjson'
 
+local function getCurrentFolder (catalog) 
+    if catalog.getActiveSources then
+        log ("getCurrentFolder")
+        local sources = catalog:getActiveSources()
+        for _, s in ipairs (sources) do            
+            if s.type then
+                log (s:type())
+                if s:type() == 'LrFolder' then
+                    return s
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
 local function fromJson (jsonString)
     log ("fromJson: ", tostring (jsonString:len()))
     if jsonString then
@@ -49,8 +66,41 @@ local function readFile (path)
 end
 
 local function fromFile (path)
+    log ("JSON: ", path)
+
     local jsonString = readFile (path)
-    return fromJson (jsonString)
+
+    if jsonString then
+        return fromJson (jsonString)
+    end
+
+    log ("JSON: missing")
+
+    return nil
+end
+
+local function fromLrFolder (LrPathUtils, folder)
+    if folder and folder.getPath and folder.getName then
+        local jsonPath = LrPathUtils.addExtension (LrPathUtils.child (folder:getPath(), folder:getName()), "json")
+        return fromFile (jsonPath), jsonPath, folder
+    end
+    return nil, "<no path>", folder
+end
+
+local function fromCatalog (LrPathUtils, catalog)
+    if catalog then
+        local folder = getCurrentFolder (catalog)
+
+        if not folder then 
+            log ("Current folder nil")
+            return nil
+        end
+
+        log ("Current folder: ", folder:getPath())
+        return fromLrFolder (LrPathUtils, folder)
+    end
+
+    return nil
 end
 
 return {
@@ -60,5 +110,7 @@ return {
     },
 
     fromJson = fromJson,
-    fromFile = fromFile
+    fromFile = fromFile,
+    fromLrFolder = fromLrFolder,
+    fromCatalog = fromCatalog
 }
