@@ -76,7 +76,7 @@ local function build (args)
         spacing = f:dialog_spacing(),
         update_snack,
         f:static_text {
-            title = "Pick the Film Shots frame for each Photo"
+            title = "Pick a Film Shots frame for each Photo"
         },
         f:scrolled_view {
             height = size.height * 0.75,

@@ -1,26 +1,44 @@
-LUAC = "sdk/Lua Compiler/mac/luac"
-LUA = "lua5.1"
+LUAC ?= sdk/Lua\ Compiler/mac/luac
+LUA ?= lua5.1
+DELIVERY_DIR ?= ./delivery
 
-LUA_FILES = ApplyFilmShotsMetadata.lua \
-	ExportWriteFilmShotsMetadata.lua \
-	FilmShotsMetadata.lua \
-	FilmShotsMetadataDefinition.lua \
-	FilmShotsMetadataTagset.lua \
-	ExiftoolInterface.lua \
-	Info.lua \
-	import.lua \
-	dkjson.lua \
-	log.lua
+DEV_PLUGIN = filmlog.lrdevplugin
+REL_PLUGIN = filmlog.lrplugin
+LUA_SOURCES = $(shell find ${DEV_PLUGIN} -name *.lua)
+LUA_OBJECTS  := $(LUA_SOURCES:$(DEV_PLUGIN)/%.lua=$(DELIVERY_DIR)/$(REL_PLUGIN)/%.lua)
 
-deliver : ${LUA_FILES}
-	cp -r filmlog.lrdevplugin/exiftool filmlog.lrplugin
-	cp LICENSE filmlog.lrplugin
-	zip -r filmlog.lrplugin.zip filmlog.lrplugin
+deliver : ${DELIVERY_DIR}/${REL_PLUGIN}.zip 	
+	@echo ALL DONE
 
-${LUA_FILES}: %.lua : filmlog.lrdevplugin/%.lua
-	${LUAC} -o filmlog.lrplugin/$@ $<
+${DELIVERY_DIR}/${REL_PLUGIN}.zip: ${DELIVERY_DIR}/${REL_PLUGIN} \
+		${DELIVERY_DIR}/${REL_PLUGIN}/Config.txt \
+		${DELIVERY_DIR}/${REL_PLUGIN}/exiftool \
+		${DELIVERY_DIR}/${REL_PLUGIN}/LICENSE \
+		$(LUA_OBJECTS)
+	rm -f ${DELIVERY_DIR}/${REL_PLUGIN}.zip
+	cd ${DELIVERY_DIR} && zip -r ${REL_PLUGIN}.zip ${REL_PLUGIN}
+	rm -rf ${DELIVERY_DIR}/${REL_PLUGIN}
 
-LUA_TEST_PATH="./filmlog.lrdevplugin/?.lua;./test/?.lua;;"
+.PHONY: ${DELIVERY_DIR}/${REL_PLUGIN}
+${DELIVERY_DIR}/${REL_PLUGIN}:
+	rm -rf ${DELIVERY_DIR}/${REL_PLUGIN}
+	mkdir -p ${DELIVERY_DIR}/${REL_PLUGIN}
+
+${DELIVERY_DIR}/${REL_PLUGIN}/Config.txt:
+	cp ${DEV_PLUGIN}/Config.txt ${DELIVERY_DIR}/${REL_PLUGIN}
+
+.PHONY: ${DELIVERY_DIR}/${REL_PLUGIN}/exiftool
+${DELIVERY_DIR}/${REL_PLUGIN}/exiftool:
+	cp -r ${DEV_PLUGIN}/exiftool ${DELIVERY_DIR}/${REL_PLUGIN}
+
+${DELIVERY_DIR}/${REL_PLUGIN}/LICENSE:
+	cp LICENSE ${DELIVERY_DIR}/${REL_PLUGIN}
+
+$(LUA_OBJECTS) : $(DELIVERY_DIR)/$(REL_PLUGIN)/%.lua : $(DEV_PLUGIN)/%.lua
+	mkdir -p $(shell dirname $@)
+	${LUAC} -o $@ $<
+
+LUA_TEST_PATH="./${DEV_PLUGIN}/?.lua;./test/?.lua;;"
 LUA_TEST_ENV="_G.use=require"
 
 .PHONY: test

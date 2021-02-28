@@ -1,3 +1,5 @@
+require 'Logger'
+
 local LightroomMetadata = {
 }
 
@@ -9,6 +11,8 @@ local function getRawValue (photo, key)
     else
         value = photo[key]
     end
+
+    log (photo.localIdentifier, ' getR: ', key, '=', tostring (value))
     
     return value
 end
@@ -21,6 +25,8 @@ local function getFormattedValue (photo, key)
     else
         value = photo[key]
     end
+
+    log (photo.localIdentifier, ' getF: ', key, '=', tostring (value))
     
     return value
 end
@@ -39,6 +45,9 @@ function LightroomMetadata:make (photo)
     self.__index = self
 
     metadata.photo = photo
+
+    log ("LightroomMetadata::make OK")
+
     return metadata
 end
 

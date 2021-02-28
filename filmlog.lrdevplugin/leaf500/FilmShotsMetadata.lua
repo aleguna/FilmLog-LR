@@ -1,3 +1,5 @@
+require 'Logger'
+
 local Metadata = {
 }
 
@@ -22,6 +24,7 @@ end
 
 
 local function setValue (photo, key, value)
+    log (photo.localIdentifier, ' set: ', key, '=', tostring (value))
     if photo["setPropertyForPlugin"] then
         photo:setPropertyForPlugin (_PLUGIN, key, nillOrString (value))
     else
@@ -36,6 +39,8 @@ local function getValue (photo, key)
     else
         value = photo[key]
     end
+
+    log (photo.localIdentifier, ' get: ', key, '=', tostring (value))
     
     return value
 end
@@ -246,12 +251,13 @@ function Metadata:make (photo)
 
     metadata.photo = photo
 
+    log ("FilmShotsMetadata::make OK")
+
     return metadata
 end
 
 return {
     make = function (photo)
-        --log:trace ("meta hello")
         return Metadata:make (photo)
     end
 }
