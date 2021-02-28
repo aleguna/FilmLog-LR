@@ -34,6 +34,7 @@ jobs:
         
       - name: version
         run: echo "VERSION_TAG=v$(make sversion)" >> $GITHUB_ENV
+              
         
       - name: deliver
         run: make deliver
@@ -44,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ VERSION_TAG }}
-          release_name: Release ${{ VERSION_TAG }}
+          tag_name: ${{ env.VERSION_TAG }}
+          release_name: Release ${{ env.VERSION_TAG }}
           body: develop release
           draft: true
           prerelease: true
@@ -56,8 +57,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the release step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./delivery/filmlog.lrplugin-${{ VERSION_TAG }}.zip
-          asset_name: filmlog.lrplugin-${{ VERSION_TAG }}
+          asset_path: ./delivery/filmlog.lrplugin-${{ env.VERSION_TAG }}.zip
+          asset_name: filmlog.lrplugin-${{ env.VERSION_TAG }}
           asset_content_type: application/zip
         
       
