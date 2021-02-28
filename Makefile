@@ -24,7 +24,10 @@ DELIVERY_ARCHIVE_PATH = ${DELIVERY_DIR}/${DELIVERY_ARCHIVE}
 .PHONY:
 bump_build:
 	@sed -i '' "s|${TVERSION}|${TVERISON_NEXT_BUILD}|" ${INFO_FILE}
-	@${LUA} ${INFO_FILE} --version
+
+.PHONY: sversion
+sversion:
+	@echo ${SVERSION}
 
 deliver : ${DELIVERY_ARCHIVE_PATH} 	
 	@echo ALL DONE
