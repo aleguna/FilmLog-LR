@@ -1,4 +1,4 @@
-LUAC ?= sdk/Lua\ Compiler/mac/luac
+LUAC ?= luac5.1
 LUA ?= lua5.1
 DELIVERY_DIR ?= ./delivery
 
