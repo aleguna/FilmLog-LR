@@ -30,12 +30,16 @@ jobs:
         run: make test
         
       - name: bump
-        run: make bump_build
+        run: make bump_build            
         
       - name: version
         run: echo "VERSION_TAG=v$(make sversion)" >> $GITHUB_ENV
-              
         
+      - name: tag
+        run: | 
+          git commit filmlog.lrdevplugin/Info.lua -m "Bump build ${{ VERSION_TAG }}"
+          git tag ${{ VERSION_TAG }}
+                  
       - name: deliver
         run: make deliver
         
@@ -51,6 +55,9 @@ jobs:
           draft: true
           prerelease: true
           
+      - name: print_url
+        run: echo "Release URL ${{ steps.release.html_url }}"
+          
       - name: upload
         uses: actions/upload-release-asset@v1
         env:
@@ -60,6 +67,10 @@ jobs:
           asset_path: ./delivery/filmlog.lrplugin-${{ env.VERSION_TAG }}.zip
           asset_name: filmlog.lrplugin-${{ env.VERSION_TAG }}
           asset_content_type: application/zip
+          
+      - name: push
+        run: git push --tags origin
+          
         
       
         
