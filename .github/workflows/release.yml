@@ -25,6 +25,11 @@ jobs:
 
       - name: install
         run: sudo apt-get install lua5.1
+        
+      - name: git:
+        run: |
+          git config --global user.email "aleguna@gmail.com"
+          git config --global user.name "Bip Bop"
                 
       - name: test
         run: make test
