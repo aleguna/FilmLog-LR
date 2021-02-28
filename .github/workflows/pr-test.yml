@@ -4,9 +4,7 @@ name: pr-test
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
-  push:
-    branches: [ develop, master, release/* ]
+  # Triggers the workflow on push or pull request events but only for the develop branch 
   pull_request:
     branches: [ develop, master, release/* ]
 
