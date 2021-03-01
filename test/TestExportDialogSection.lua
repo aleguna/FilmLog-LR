@@ -1,5 +1,5 @@
 local lu = require "luaunit"
-local LrViewMock = require "LrViewMock"
+local LrViewMock = require "mock.LrViewMock"
 local ExportDialogSection = require "leaf500.ExportDialogSection"
 
 function testEmpty()

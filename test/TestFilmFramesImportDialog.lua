@@ -2,7 +2,7 @@ local lu = require "luaunit"
 
 local FilmFramesImportDialog = require "leaf500.FilmFramesImportDialog"
 local FilmRoll = require "leaf500.FilmRoll"
-local LrViewMock = require 'test.LrViewMock' 
+local LrViewMock = require 'mock.LrViewMock' 
 
 local LrHttpMock = {
     openUrlInBrowser = function(utl)
