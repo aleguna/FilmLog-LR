@@ -8,7 +8,7 @@ local LrSystemInfo = import 'LrSystemInfo'
 local LrHttp = import 'LrHttp'
 local LrBinding = import 'LrBinding'
 
-require 'Logger' ("import")
+local log = require 'Logger' ("import")
 require 'Use'
 
 local FilmShotsMetadata = use 'leaf500.FilmShotsMetadata'
@@ -52,10 +52,10 @@ local function main (context)
     local catalog = LrApplication.activeCatalog ()
 
     local updateInfo = UpdateChecker.check (LrHttp, nil)
-    log ("updateInfo: ", tostring (updateInfo))
+    log ("updateInfo: ", updateInfo)
     
     local roll, jsonPath, folder = FilmRoll.fromCatalog (LrPathUtils, catalog)    
-    log ("roll: ", tostring (roll), ": ", tostring (jsonPath))
+    log ("roll: ", roll, ": ", jsonPath)
 
     if roll == nil and jsonPath then
         LrDialogs.message ("Couldn't load Film Shots JSON file\n"  .. jsonPath)
@@ -68,10 +68,13 @@ local function main (context)
     local bindings = MetadataBindingTable.make (context, LrBinding, folder)    
     local result = showFilmShotsImportDialog (roll, bindings, updateInfo)
     if result == "ok" then
+        log ("apply")
         catalog:withPrivateWriteAccessDo (function (context)            
             MetadataBindingTable.apply (roll, bindings)
         end)
+        log ("apply: OK")
     end
+    log ("DONE")
 end
 
 LrFunctionContext.postAsyncTaskWithContext ("showFilmShotsImportDialog", function (context)
