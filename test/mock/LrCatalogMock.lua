@@ -14,7 +14,7 @@ function LrCatalogMock:make (activeSources)
     setmetatable (catalog, self)
     self.__index = self
 
-    self.activeSources = activeSources
+    catalog.activeSources = activeSources
       
     return catalog
 end

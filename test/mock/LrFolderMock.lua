@@ -22,9 +22,9 @@ function LrFolderMock:make (name, path, photos)
     setmetatable (folder, self)
     self.__index = self
 
-    self.path = path
-    self.photos = photos
-    self.name = name
+    folder.path = path
+    folder.photos = photos
+    folder.name = name
     
     return folder
 end
