@@ -44,6 +44,8 @@ jobs:
         run: | 
           git commit filmlog.lrdevplugin/Info.lua -m "Bump build ${{ env.VERSION_TAG }}"
           git tag ${{ env.VERSION_TAG }}
+          git push --tags origin
+          git push origin
                   
       - name: deliver
         run: make deliver
@@ -73,10 +75,6 @@ jobs:
           asset_name: filmlog.lrplugin-${{ env.VERSION_TAG }}.zip
           asset_content_type: application/zip
           
-      - name: push
-        run: |
-          git push --tags origin
-          git push origin
           
         
       
