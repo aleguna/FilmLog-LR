@@ -264,6 +264,94 @@ function testSomeFramesAssigned_Stacked ()
     })
 end
 
+function testSomeFramesAssigned_Stacked_Virtual ()
+    local context = {
+        type = "context"
+    }
+
+    local folder = LrFolderMock:make ()
+    folder.photos = {
+        {
+            fileName = 'file1.jpeg',
+            stackPositionInFolder = 1,
+            Frame_Index = 2,
+        },
+
+        {
+            fileName = 'file2.jpeg',
+            stackPositionInFolder = 1,
+            isVirtualCopy = true                        
+        },
+
+        {
+            fileName = 'file3.jpeg',
+            stackPositionInFolder = 1,
+            Frame_Index = 4,
+        },
+
+        {
+            fileName = 'file4.jpeg',
+            stackPositionInFolder = 2,
+            Frame_Index = 5,
+        },
+
+        {
+            fileName = 'file5.jpeg',
+            stackPositionInFolder = 1,
+            Frame_Index = 1,
+        },
+    }
+
+    local bindingTable = MetadataBindingTable.make (context, LrBindingMock, folder)
+
+    lu.assertEquals (bindingTable, {
+            {
+                photo = {
+                    fileName = 'file1.jpeg',
+                    stackPositionInFolder = 1,
+                    Frame_Index = 2,
+                },
+                binding = {
+                    type = 'binding',
+                    context = {
+                        type = 'context'
+                    },
+                    filmFrameIndex = 2
+                }
+            },
+
+            {
+                photo = {
+                    fileName = 'file3.jpeg',
+                    stackPositionInFolder = 1,
+                    Frame_Index = 4,
+                },
+                binding = {
+                    type = 'binding',
+                    context = {
+                        type = 'context'
+                    },
+                    filmFrameIndex = 4
+                }
+            },
+
+            {
+                photo = {
+                    fileName = 'file5.jpeg',
+                    stackPositionInFolder = 1,
+                    Frame_Index = 1,
+                },
+                binding = {
+                    type = 'binding',
+                    context = {
+                        type = 'context'
+                    },
+                    filmFrameIndex = 1
+                }
+            }
+    })
+end
+
 function testApplyNilFrames ()
     local roll = FilmRoll.fromFile ('test/data/test-album/test-album.json')
     roll.frames = nil

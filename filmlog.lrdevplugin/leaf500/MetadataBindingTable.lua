@@ -43,7 +43,7 @@ local function make (context, LrBinding, folder)
     for i, photo in ipairs (folder:getPhotos (false)) do 
         log ("Bind: ", photo.localIdentifier)
         local lrMeta = LightroomMetadata.make (photo)
-        if lrMeta:stackPositionInFolder () == 1 then
+        if lrMeta:stackPositionInFolder () == 1 and not lrMeta:isVirtualCopy() then
             local pluginMeta = FilmShotsMetadata.make (photo)
             log ("pluginMeta: ", pluginMeta)
 

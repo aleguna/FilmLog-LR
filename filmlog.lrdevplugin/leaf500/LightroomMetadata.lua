@@ -39,6 +39,10 @@ function LightroomMetadata:fileName ()
     return getFormattedValue (self.photo, "fileName")
 end
 
+function LightroomMetadata:isVirtualCopy ()
+    return getRawValue (self.photo, "isVirtualCopy")
+end
+
 function LightroomMetadata:make (photo) 
     local metadata = {}
     setmetatable (metadata, self)
