@@ -15,6 +15,9 @@ TVERISON_NEXT_BUILD = $(shell ${LUA} ${DEV_PLUGIN}/Info.lua --next-build)
 LUA_SOURCES = $(shell find ${DEV_PLUGIN} -name *.lua)
 LUA_OBJECTS  := $(LUA_SOURCES:$(DEV_PLUGIN)/%.lua=$(DELIVERY_DIR)/$(REL_PLUGIN)/%.lua)
 
+LUA_TEST_DIR = test
+LUA_TESTS = $(shell find ${LUA_TEST_DIR} -name Test*.lua)
+
 LUA_TEST_PATH = "./${DEV_PLUGIN}/?.lua;./test/?.lua;;"
 LUA_TEST_ENV = "_G.use=require"
 
@@ -61,10 +64,12 @@ $(LUA_OBJECTS) : $(DELIVERY_DIR)/$(REL_PLUGIN)/%.lua : $(DEV_PLUGIN)/%.lua
 	${LUAC} -o $@ $<
 
 .PHONY: test
-test:
-	@for f in $(shell ls test/*.lua); do	\
-		echo Test: $${f}			;		\
-		LUA_PATH=${LUA_TEST_PATH} ${LUA} -e "${LUA_TEST_ENV}" $${f} -o TAP || exit 1 				\
-	; done
+test: $(LUA_TESTS)
 	@echo "ALL TEST PASS"
+
+.PHONY: $(LUA_TESTS)
+$(LUA_TESTS):
+	@echo Test: $@
+	@LUA_PATH=${LUA_TEST_PATH} ${LUA} -e "${LUA_TEST_ENV}" $@ -o TAP
+	
 		
