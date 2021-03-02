@@ -24,6 +24,12 @@ local Info = {
 			file = 'Import.lua',
 			enabledWhen = 'photosAvailable',
 		},
+
+		{
+			title = 'Override Lightroom Metadata ...',
+			file = 'Override.lua',
+			enabledWhen = 'photosAvailable',
+		},
 	},
 	
 	LrExportFilterProvider = {

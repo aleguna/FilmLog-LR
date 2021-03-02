@@ -1,7 +1,7 @@
 require 'Use'
 local DefaultMetadataMap = use 'leaf500.DefaultMetadataMap'
 
-local function make(f, propertyTable)
+local function build (f, propertyTable)
     local column = {
         spacing = f:control_spacing(),
         f:row {
@@ -35,12 +35,14 @@ local function make(f, propertyTable)
         )
     end
 
-    return {
-        title = "Film Shots Metadata",
-        f:column(column)
-    }
+    return f:column (column)
+
+    --return {
+        --title = "Film Shots Metadata",
+        --f:column(column)
+    --}
 end
 
 return {
-    make = make
+    build = build
 }

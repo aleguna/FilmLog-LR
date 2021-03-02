@@ -8,7 +8,7 @@ end
 
 function testSectionForFilterInDialog()
     local props = {}
-    local section = ExportDialogSection.make(LrViewMock.osFactory(), props)
+    local section = ExportDialogSection.build (LrViewMock.osFactory(), props)
 
     lu.assertEquals(
         section,

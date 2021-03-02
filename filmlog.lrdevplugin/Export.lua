@@ -49,7 +49,10 @@ end
 
 local function sectionForFilterInDialog (f, propertyTable )
 	log ('sectionForFilterInDialog')
-    return ExportDialogSection.make (f, propertyTable)
+	return {
+        title = "Film Shots Metadata",
+    	ExportDialogSection.build (f, propertyTable)
+    }
 end
 
 return {
