@@ -1,4 +1,5 @@
-require 'Logger'
+local log = require 'Logger' ("FilmRoll")
+
 require 'Use'
 
 local json = use 'lib.dkjson'
@@ -21,7 +22,7 @@ local function getCurrentFolder (catalog)
 end
 
 local function fromJson (jsonString)
-    log ("fromJson: ", tostring (jsonString:len()))
+    log ("fromJson: ", jsonString:len())
     if jsonString then
         local filmShotsMetadata, pos, error = json.decode (jsonString)
 
@@ -29,10 +30,10 @@ local function fromJson (jsonString)
             local filmFrames = {}
             local maxIndex = 0
 
-            log ("Frames: ", tostring (#filmShotsMetadata[1].frames))
+            log ("Frames: ", #filmShotsMetadata[1].frames)
 
             for _, frame in ipairs (filmShotsMetadata[1].frames) do
-                log ("Frame: ", tostring (frame.frameIndex))
+                log ("Frame: ", frame.frameIndex)
                 filmFrames[frame.frameIndex] = frame
 
                 if frame.frameIndex > maxIndex then
@@ -40,7 +41,7 @@ local function fromJson (jsonString)
                 end
             end
 
-            log ("Frames: ", tostring (maxIndex))
+            log ("Frames: ", maxIndex)
 
             filmShotsMetadata[1].frameCount = maxIndex
             filmShotsMetadata[1].frames = filmFrames

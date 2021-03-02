@@ -1,4 +1,4 @@
-require 'Logger'
+local log = require 'Logger' ("FilmShotsMetadata")
 
 local Metadata = {
 }
@@ -24,7 +24,7 @@ end
 
 
 local function setValue (photo, key, value)
-    log (photo.localIdentifier, ' set: ', key, '=', tostring (value))
+    log (photo.localIdentifier, 'set:', key, '=', value)
     if photo["setPropertyForPlugin"] then
         photo:setPropertyForPlugin (_PLUGIN, key, nillOrString (value))
     else
@@ -40,7 +40,7 @@ local function getValue (photo, key)
         value = photo[key]
     end
 
-    log (photo.localIdentifier, ' get: ', key, '=', tostring (value))
+    log (photo.localIdentifier, 'get:', key, '=', value)
     
     return value
 end
@@ -251,7 +251,7 @@ function Metadata:make (photo)
 
     metadata.photo = photo
 
-    log ("FilmShotsMetadata::make OK")
+    log ("make OK")
 
     return metadata
 end

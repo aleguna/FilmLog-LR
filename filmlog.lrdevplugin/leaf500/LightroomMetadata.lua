@@ -1,4 +1,4 @@
-require 'Logger'
+local log = require 'Logger' ("LightroomMetadata")
 
 local LightroomMetadata = {
 }
@@ -12,7 +12,7 @@ local function getRawValue (photo, key)
         value = photo[key]
     end
 
-    log (photo.localIdentifier, ' getR: ', key, '=', tostring (value))
+    log (photo.localIdentifier, 'getR:', key, '=', value)
     
     return value
 end
@@ -26,7 +26,7 @@ local function getFormattedValue (photo, key)
         value = photo[key]
     end
 
-    log (photo.localIdentifier, ' getF: ', key, '=', tostring (value))
+    log (photo.localIdentifier, 'getF:', key, '=', value)
     
     return value
 end
@@ -46,7 +46,7 @@ function LightroomMetadata:make (photo)
 
     metadata.photo = photo
 
-    log ("LightroomMetadata::make OK")
+    log ("make OK")
 
     return metadata
 end

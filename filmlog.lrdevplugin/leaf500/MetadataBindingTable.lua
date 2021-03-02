@@ -1,4 +1,5 @@
-require 'Logger'
+local log = require 'Logger' ("MetadataBindingTable")
+
 require 'Use'
 
 local FilmShotsMetadata = use 'leaf500.FilmShotsMetadata'
@@ -44,13 +45,13 @@ local function make (context, LrBinding, folder)
         local lrMeta = LightroomMetadata.make (photo)
         if lrMeta:stackPositionInFolder () == 1 then
             local pluginMeta = FilmShotsMetadata.make (photo)
-            log ("pluginMeta: ", tostring (pluginMeta))
+            log ("pluginMeta: ", pluginMeta)
 
             local binding = LrBinding.makePropertyTable (context)
-            log ("binding: ", tostring (binding))
+            log ("binding: ", binding)
 
             local frameIndex = pluginMeta:Frame_Index ()
-            log ("frameIndex: ", tostring (binding))            
+            log ("frameIndex: ", binding)
             if frameIndex then
                 binding.filmFrameIndex = frameIndex
             end
