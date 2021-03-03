@@ -43,6 +43,10 @@ function LightroomMetadata:isVirtualCopy ()
     return getRawValue (self.photo, "isVirtualCopy")
 end
 
+function LightroomMetadata:path ()
+    return getRawValue (self.photo, "path")
+end
+
 function LightroomMetadata:make (photo) 
     local metadata = {}
     setmetatable (metadata, self)

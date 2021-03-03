@@ -1,5 +1,5 @@
 return {
 
-    LogFile = nil
+    LogFile = "Dev"
 
 }
