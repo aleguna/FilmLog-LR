@@ -3,7 +3,7 @@ local lu = require "luaunit"
 require 'Logger' ("TestMetadataOverride")
 
 local MetadataOverride = require "leaf500.MetadataOverride"
-local DefaultMetadataMap = use 'leaf500.DefaultMetadataMap'
+local DefaultMetadataMap = require 'leaf500.DefaultMetadataMap'
 
 function makeLrTasksMock ()
     local LrTasksMock = {
