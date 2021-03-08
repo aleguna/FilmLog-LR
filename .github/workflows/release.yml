@@ -36,13 +36,8 @@ jobs:
       - name: test
         run: make test
         
-      - name: bump_build
-        if: ${{ github.ref }} == '/refs/heads/develop'
-        run: make bump_build
-        
-      - name: bump_revision
-        if: contains (${{ github.ref }}, '/refs/heads/release/')
-        run: make bump_revision
+      - name: bump
+        run: make bump_build            
         
       - name: version
         run: echo "VERSION_TAG=v$(make sversion)" >> $GITHUB_ENV
