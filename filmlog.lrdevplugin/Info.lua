@@ -1,4 +1,4 @@
-local Version = {major=1, minor=0, revision=1, build=2}
+local Version = {major=1, minor=0, revision=1, build=3}
 
 local Info = {
 
