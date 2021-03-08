@@ -6,7 +6,7 @@ name: release
 on:
   # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-    branches: [ develop ]
+    branches: [ develop, release/*]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,8 +34,13 @@ jobs:
       - name: test
         run: make test
         
-      - name: bump
-        run: make bump_build            
+      - name: bump_build
+        if: github.ref == '/refs/heads/develop'
+        run: make bump_build
+        
+      - name: bump_revision
+        if: contains (github.ref, '/refs/heads/release/')
+        run: make bump_revision
         
       - name: version
         run: echo "VERSION_TAG=v$(make sversion)" >> $GITHUB_ENV
