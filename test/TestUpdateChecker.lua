@@ -104,7 +104,29 @@ function testUpdate_Available ()
 
     local updateInfo = UpdateChecker.check (LrHttpMockRaw (new), old)
     lu.assertNotNil (updateInfo)
-    lu.assertEquals (updateInfo.newVersion, "1.3.1")
+    lu.assertEquals (updateInfo.newVersion, "1.3.1.0")
 end
 
+function testUpdate_Available_NewBuild ()
+    local old = {
+        VERSION = {
+            major = 1,
+            minor = 0,
+            revision = 1,
+        }
+    }
+
+    local new = [[return {
+        VERSION = {
+            major = 1,
+            minor = 3,
+            revision = 1,
+            build = 10
+        }
+    }]]
+
+    local updateInfo = UpdateChecker.check (LrHttpMockRaw (new), old)
+    lu.assertNotNil (updateInfo)
+    lu.assertEquals (updateInfo.newVersion, "1.3.1.10")
+end
 os.exit( lu.LuaUnit.run() )

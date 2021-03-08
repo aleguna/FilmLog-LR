@@ -7,22 +7,29 @@ end
 
 function testMajorGreater ()
     lu.assertTrue (VersionUtils.newer (
-        { major=0, minor=5, revision=0},
-        { major=1, minor=0, revision=0}
+        { major=0, minor=5, revision=0, build = 0},
+        { major=1, minor=0, revision=0, build = 0}
     ))
 end
 
 function testMajorSame_MinorGreater ()
     lu.assertTrue (VersionUtils.newer (
-        { major=1, minor=5, revision=0},
-        { major=1, minor=6, revision=0}
+        { major=1, minor=5, revision=0, build = 0},
+        { major=1, minor=6, revision=0, build = 0}
     ))
 end
 
 function testMajorSame_MinorSame_RevGreater ()
     lu.assertTrue (VersionUtils.newer (
-        { major=1, minor=5, revision=1},
-        { major=1, minor=5, revision=2}
+        { major=1, minor=5, revision=1, build = 0},
+        { major=1, minor=5, revision=2, build = 0}
+    ))
+end
+
+function testMajorSame_MinorSame_RevSame_BuildGreater ()
+    lu.assertTrue (VersionUtils.newer (
+        { major=1, minor=5, revision=2, build=112},
+        { major=1, minor=5, revision=2, build=113}
     ))
 end
 
