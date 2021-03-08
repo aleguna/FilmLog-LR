@@ -28,7 +28,12 @@ local function check (LrHttp, INFO)
             if NEW_INFO and VersionUtils.newer (INFO.VERSION, NEW_INFO.VERSION)
             then
                 return {
-                    newVersion = string.format ("%d.%d.%d", NEW_INFO.VERSION.major, NEW_INFO.VERSION.minor, NEW_INFO.VERSION.revision),
+                    newVersion = string.format ("%d.%d.%d.%d", 
+                                NEW_INFO.VERSION.major or 0,
+                                NEW_INFO.VERSION.minor or 0,
+                                NEW_INFO.VERSION.revision or 0,
+                                NEW_INFO.VERSION.build or 0
+                            ),
                     downloadUrl = DOWNLOAD_URL
                 }
             end
