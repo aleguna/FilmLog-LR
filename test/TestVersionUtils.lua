@@ -33,4 +33,11 @@ function testMajorSame_MinorSame_RevSame_BuildGreater ()
     ))
 end
 
+function testMajorSame_MinorSame_RevSame_BuildSame ()
+    lu.assertFalse (VersionUtils.newer (
+        { major=1, minor=5, revision=2, build=112},
+        { major=1, minor=5, revision=2, build=112}
+    ))
+end
+
 os.exit( lu.LuaUnit.run() )

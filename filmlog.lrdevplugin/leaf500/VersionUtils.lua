@@ -13,9 +13,9 @@ local function newer (v1, v2)
     end
 
     v2.build = v2.build or 0
-    v1.buid = v1.buid or 0
+    v1.build = v1.build or 0
 
-    if v2.major == v1.major and v2.minor == v1.minor and v2.revision == v1.revision and v2.build > v1.buid then
+    if v2.major == v1.major and v2.minor == v1.minor and v2.revision == v1.revision and v2.build > v1.build then
         return true
     end
 
