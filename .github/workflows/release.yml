@@ -37,11 +37,11 @@ jobs:
         run: make test
         
       - name: bump_build
-        if: github.ref == '/refs/heads/develop'
+        if: ${{ github.ref }} == '/refs/heads/develop'
         run: make bump_build
         
       - name: bump_revision
-        if: contains (github.ref, '/refs/heads/release/')
+        if: contains (${{ github.ref }}, '/refs/heads/release/')
         run: make bump_revision
         
       - name: version
