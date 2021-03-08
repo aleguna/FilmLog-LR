@@ -65,6 +65,11 @@ if arg then
         Version.build = Version.build + 1
         dumpVersion ()   
     end
+
+	if arg[1] == '--next-revision' then
+	Version.revision = Version.revision + 1
+	dumpVersion ()   
+end
 end
 
 return Info

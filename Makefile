@@ -10,8 +10,6 @@ INFO_FILE = ${DEV_PLUGIN}/Info.lua
 TVERSION = $(shell ${LUA} ${INFO_FILE} --version-table)
 SVERSION = $(shell ${LUA} ${INFO_FILE} --version)
 
-TVERISON_NEXT_BUILD = $(shell ${LUA} ${DEV_PLUGIN}/Info.lua --next-build)
-
 LUA_SOURCES = $(shell find ${DEV_PLUGIN} -name *.lua)
 LUA_OBJECTS  := $(LUA_SOURCES:$(DEV_PLUGIN)/%.lua=$(DELIVERY_DIR)/$(REL_PLUGIN)/%.lua)
 
@@ -23,7 +21,11 @@ DELIVERY_ARCHIVE_PATH = ${DELIVERY_DIR}/${DELIVERY_ARCHIVE}
 
 .PHONY:
 bump_build:
-	@sed -i~ "s|${TVERSION}|${TVERISON_NEXT_BUILD}|" ${INFO_FILE}
+	@sed -i~ "s|${TVERSION}|${shell ${LUA} ${DEV_PLUGIN}/Info.lua --next-build}|" ${INFO_FILE}
+
+.PHONY:
+bump_revision:
+	@sed -i~ "s|${TVERSION}|${shell ${LUA} ${DEV_PLUGIN}/Info.lua --next-revision}|" ${INFO_FILE}
 
 .PHONY: sversion
 sversion:
