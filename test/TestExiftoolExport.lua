@@ -75,6 +75,27 @@ function testNegativeLatitudeLongitude()
     )
 end
 
+function testNoLocation()
+    local builder = exiftool.make (DefaultMetadataMap)
+
+    command =
+        builder:buildCommand(
+        "1.jpg",
+        FilmShotsMetadata.make(
+            {
+                Roll_Name = "Roll 1",
+                Frame_Latitude = nil,
+                Frame_Longitude = nil
+            }
+        )
+    )
+
+    lu.assertEquals(
+        command,
+        'exiftool -Title="Roll 1" -overwrite_original "1.jpg"'
+    )
+end
+
 function testBasic()
     local builder = exiftool.make (DefaultMetadataMap)
 
