@@ -32,13 +32,16 @@ local function postProcessRenderedPhotos (functionContext, filterContext)
                 sourceRendition.destinationPath,
                 FilmShotsMetadata.make (sourceRendition.photo)
             )
-
-			local exiftoolResult = LrTasks.execute (command)
-			if  exiftoolResult ~= 0 then
-				log ('Exiftool: ret: ', exiftoolResult)
-				renditionToSatisfy:renditionIsDone( false, "Failed to execute Exiftool" )
+			if command then
+				local exiftoolResult = LrTasks.execute (command)
+				if  exiftoolResult ~= 0 then
+					log ('Exiftool: ret: ', exiftoolResult)
+					renditionToSatisfy:renditionIsDone( false, "Failed to execute Exiftool" )
+				else
+					log  ('Exiftool: OK')
+				end
 			else
-				log  ('Exiftool: OK')
+				log ('Exiftool: skip empty')
 			end
         else
             log ("waitForRender: error: ", pathOrError)

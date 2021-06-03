@@ -146,7 +146,9 @@ end
 function Metadata:Frame_LatitudeRef ()
     local latitude = tonumber (self:Frame_Latitude ())
 
-    if latitude < 0 then
+    if latitude == nil then
+        return nil
+    elseif latitude < 0 then
         return "S"
     else
         return "N"
@@ -162,7 +164,9 @@ end
 function Metadata:Frame_LongitudeRef ()
     local longitude = tonumber (self:Frame_Longitude ())
 
-    if longitude < 0 then
+    if longitude == nil then
+        return nil
+    elseif longitude < 0 then
         return "W"
     else
         return "E"
