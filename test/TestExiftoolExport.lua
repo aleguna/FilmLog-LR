@@ -96,6 +96,15 @@ function testNoLocation()
     )
 end
 
+function testEmpty()
+    local builder = exiftool.make (DefaultMetadataMap)
+
+    local meta = FilmShotsMetadata.make ({})
+    local command = builder:buildCommand ("1.jpg", meta)
+
+    lu.assertNil (command)
+end
+
 function testBasic()
     local builder = exiftool.make (DefaultMetadataMap)
 
